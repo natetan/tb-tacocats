@@ -16,6 +16,7 @@ gdp <- read.csv("data/GDPcap_NOClimateChange_RCP85_SSP5.csv", stringsAsFactors =
 combined.data <- left_join(incidence, mortality) %>% 
   left_join(drug.resistant)
 
+# Removes brackets and everything inside brackets in the data of a given column
 ModifyColumn <- function(col) {
   col <- gsub("\\[.*?\\]", "",col)
   col <- gsub(" ", "", col)
@@ -168,12 +169,7 @@ ui <- fluidPage(
         
         # VISUAL STUFF HERE (inside mainPanel)
         mainPanel(
-          selectInput(
-            'testing3',
-            label = 'Testing second panel',
-            choices = c('Yes', 'No')
-          ),
-          tableOutput('table2')
+          plotOutput('tab3.plot')
         )
         # VISUAL STUFF END
       )
