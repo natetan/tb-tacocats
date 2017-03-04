@@ -17,7 +17,6 @@ combined.data <- left_join(incidence, mortality) %>%
   left_join(drug.resistant)
 
 ModifyColumn <- function(col) {
-  col <- combined.data$Number.of.incident.tuberculosis.cases
   col <- gsub("\\[.*?\\]", "",col)
   col <- gsub(" ", "", col)
   return(col)
@@ -49,7 +48,7 @@ better.data <- combined.data %>%
          `Confirmed cases of RR-/MDR-TB`,
          `Cases started on MDR-TB treatment`)
 
-write.csv(better.data, file = 'data/main-data.csv')
+
 
 countries <- map_data('world')
 
