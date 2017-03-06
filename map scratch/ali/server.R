@@ -20,21 +20,20 @@ shinyServer(
   function(input, output) {
     
     # Take in world data and add ISO3 for later sorting
-    world_data <- map_data("world") %>% 
-      mutate(ISO3 = iso.alpha(region, n=3))
-    View(world_data)
+    # Take in world data and add ISO3 for later sorting
+  world_data <- map_data("world") %>% 
+    mutate(ISO3 = iso.alpha(region, n=3))
+  View(world_data)
+  
+  tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
+  map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
+  
+  filtered <- reactive({
+    data <- map_tb %>%
+      filter(Year == input$map.year)
     
-    tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
-    map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
-    
-
-    # Map plot
-    output$tab2mapplot <- renderPlot({
-      ggplot(map_tb, aes(long,lat,group=group, fill = Incidence.per.100.000.people)) + geom_polygon() +
-        facet_wrap(~ Year)+
-        ggtitle("Tuberculosis Over Time")
-      
-    })
+    return(data)
+  })
   
     
     
