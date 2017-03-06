@@ -11,6 +11,7 @@ incidence.region <- read.csv("data/tb-region-incidence.csv", stringsAsFactors = 
 mortality <- read.csv("data/tb-country-mortality.csv", stringsAsFactors = F)
 drug.resistant <- read.csv("data/tb-country-drug-resistant.csv", stringsAsFactors = F)
 gdp <- read.csv("data/GDPcap_NOClimateChange_RCP85_SSP5.csv", stringsAsFactors = F)
+main.data <- read.csv("data/main-data.csv", stringsAsFactors = F)
 
 
 combined.data <- left_join(incidence, mortality) %>% 
@@ -48,6 +49,7 @@ better.data <- combined.data %>%
          `Previously treated cases of RR-/MDR-TB`,
          `Confirmed cases of RR-/MDR-TB`,
          `Cases started on MDR-TB treatment`)
+
 
 
 
@@ -151,23 +153,13 @@ ui <- fluidPage(
             'tab3.y.axis',
             label = 'Y Axis',
             choices = c('Incidence', 'Mortality', 'Drug Resistant')
-          ),
-          selectInput(
-            'tab3.region',
-            label = 'Choose by region',
-            choices = c('Africa', 'Asia')
           )
         ),
         # WIDGET STUFF END
         
         # VISUAL STUFF HERE (inside mainPanel)
         mainPanel(
-          selectInput(
-            'testing3',
-            label = 'Testing second panel',
-            choices = c('Yes', 'No')
-          ),
-          tableOutput('table2')
+          plotOutput('tab3.plot')
         )
         # VISUAL STUFF END
       )
@@ -194,7 +186,12 @@ ui <- fluidPage(
         
         # VISUAL STUFF HERE (inside mainPanel)
         mainPanel(
-          plotOutput('tab3.plot')
+          selectInput(
+            'testing3',
+            label = 'Testing second panel',
+            choices = c('Yes', 'No')
+          ),
+          tableOutput('table31')
         )
         # VISUAL STUFF END
       )
@@ -256,7 +253,17 @@ server <- function(input, output) {
   #TAB 2 
   
   #TAB 3 
-  
+  test.data <- reactive({
+    data <- main.data %>% 
+      filter(Year == 2015)
+    return(data)
+  })
+  # Plot not displaying
+  output$tab3.plot <- renderPlot({
+    plot <- ggplot(data = test.data()) +
+      geom_point(mapping = aes(x = `Incidence`, y = `Death by TB`, color = Country))
+    return(plot)
+  })
   #TAB 4
   
   #TAB 5 SUMMARY
