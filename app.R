@@ -111,7 +111,7 @@ ui <- fluidPage(
       #)
     ),
     
-    # TAB 2
+    # TAB 2 MAP STUFF
     tabPanel(
       'Panel 2',
       sidebarLayout(
@@ -132,12 +132,7 @@ ui <- fluidPage(
         
         # VISUAL STUFF HERE (inside mainPanel)
         mainPanel(
-          selectInput(
-            'testing3',
-            label = 'Testing second panel',
-            choices = c('Yes', 'No')
-          ),
-          tableOutput('table2')
+          plotOutput('tab2mapplot')
         )
         # VISUAL STUFF END
       )
@@ -250,7 +245,28 @@ ui <- fluidPage(
 server <- function(input, output) {
   #TAB 1 ABOUT TB
   
-  #TAB 2 
+  #TAB 2 MAP
+  tb.data <- read.csv("data/main-data.csv", stringsAsFactors = F)
+  Country.edited <- gsub("United States of America", "USA",tb.data$Country)
+  altered.tb.data <- mutate(tb.data, Country.edited)
+  tb.data.iso <-   mutate(altered.tb.data, ISO3 = iso.alpha(Country.edited, n=3))
+  
+  # Take in world data and add ISO3 for later sorting
+  world_data <- map_data("world") %>% 
+    mutate(ISO3 = iso.alpha(region, n=3))
+  View(world_data)
+  
+  tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
+  map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
+  
+  
+  # Map plot
+  output$tab2mapplot <- renderPlot({
+    ggplot(map_tb, aes(long,lat,group=group, fill = Incidence.per.100.000.people)) + geom_polygon() +
+      facet_wrap(~ Year)+
+      ggtitle("Tuberculosis Over Time")
+  })
+  
   
   #TAB 3 
   test.data <- reactive({
