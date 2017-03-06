@@ -21,11 +21,21 @@ pageWithSidebar(
   mainPanel(
     tabsetPanel(type= "tabs",
                 tabPanel(
-                  # Play button goes through years automatically
-                  "Sample Plot", plotOutput('tab2mapplot'),
-                  # Slider chooses year to represent in map
-                  sliderInput("slider1", label = h3("Slider"), min = 2000, 
-                              max = 2015, value = 2000))
+      'Scatter Plot',
+      sidebarLayout(
+        # WIDGET STUFF GOES HERE (inside sidebarPanel)
+        sidebarPanel(
+          selectInput(
+            'tab3.y.axis',
+            label = 'Y Axis',
+            choices = c('Incidence', 'Mortality', 'Drug Resistant')
+          )
+        ),
+        # WIDGET STUFF END
+        
+        # VISUAL STUFF HERE (inside mainPanel)
+        
+      )
+     )
     )
-  )
-)
+   )
