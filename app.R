@@ -386,7 +386,7 @@ ui <- fluidPage(
                 )
               )
               )
->>>>>>> 90db35f7608e59b69252e4159ae50684649ef063
+
 )
 
 # Ali's code
@@ -440,7 +440,8 @@ server <- function(input, output) {
   output$tab2mapplot <- renderPlot({
     ggplot(data = filtered(), aes(long,lat,group=group, fill = filtered()[,6])) + geom_polygon() +
       #facet_wrap(~ Year)+
-      ggtitle("Tuberculosis Over Time")
+      ggtitle("Tuberculosis Over Time")+ 
+      scale_fill_gradientn(colours = c("yellow", "red"))
   })
   
   
