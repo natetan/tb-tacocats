@@ -275,8 +275,11 @@ server <- function(input, output) {
     ggplot(data = filtered(), aes(long,lat,group=group, fill = filtered()[,6])) + geom_polygon() +
       #facet_wrap(~ Year)+
       ggtitle("Tuberculosis Over Time")+ 
-      scale_fill_gradientn(colours = c("yellow", "red"))
-  })
+      scale_fill_gradientn(colours = c("yellow", "red"), na.value = "white")
+  
+  # Text Output ### Please help
+  #output$tab2text <-  renderText("This map shows" Tuberculosis infection rate per 100,000 people "in each country for the year" 2015)
+  #})
   
   
   #TAB 3 
@@ -294,7 +297,8 @@ server <- function(input, output) {
       ggtitle("Tuberculosis By Country") + 
       scale_color_gradientn(colours = c("blue", "red")) + 
       xlim(0, 1000000) +
-      ylim(0, 250000)
+      ylim(0, 250000) +
+      labs(colour ='custom title')
 
     return(plot)
   })
