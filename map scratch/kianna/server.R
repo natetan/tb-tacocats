@@ -31,9 +31,9 @@ shinyServer(
     # Map plot
     output$tab2mapplot <- renderPlot({
       ggplot(map_tb, aes(long,lat,group=group, fill = Incidence.per.100.000.people)) + geom_polygon() +
-        facet_wrap(~ Year)+
-        ggtitle("Tuberculosis Over Time")
-      
+        facet_wrap(~ Year) +
+        ggtitle("Tuberculosis Over Time") + 
+        scale_fill_gradientn(colours = c("white", "red"))
     })
   
     
