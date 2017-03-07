@@ -250,7 +250,6 @@ server <- function(input, output) {
   # Take in world data and add ISO3 for later sorting
   world_data <- map_data("world") %>% 
     mutate(ISO3 = iso.alpha(region, n=3))
-  View(world_data)
   
   tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
   map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
@@ -281,7 +280,7 @@ server <- function(input, output) {
   
   #TAB 3 
   test.data <- reactive({
-    data <- better.data %>% 
+    data <- main.data %>% 
       filter(Year == 2015)
     return(data)
   })
@@ -290,7 +289,7 @@ server <- function(input, output) {
   output$tab3.plot <- renderPlot({
     plot <- ggplot(data = test.data()) +
 
-      geom_point(mapping = aes(x = Incidence, y = Death.by.TB, color = Confirmed.cases.of.RR..MDR.TB)) +
+      geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
       ggtitle("Tuberculosis By Country") + 
       scale_color_gradientn(colours = c("blue", "red")) + 
       xlim(0, 1000000) +
