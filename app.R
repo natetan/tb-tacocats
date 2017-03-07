@@ -270,7 +270,7 @@ server <- function(input, output) {
   
   #TAB 3 
   test.data <- reactive({
-    data <- main.data %>% 
+    data <- better.data %>% 
       filter(Year == 2015)
     return(data)
   })
