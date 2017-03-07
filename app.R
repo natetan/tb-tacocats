@@ -275,10 +275,15 @@ server <- function(input, output) {
       filter(Year == 2015)
     return(data)
   })
-  # Plot not displaying
+  # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
+  # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlot({
     plot <- ggplot(data = test.data()) +
-      geom_point(mapping = aes(x = Incidence, y = Death.by.TB, color = Confirmed.cases.of.RR..MDR.TB))
+      geom_point(mapping = aes(x = Incidence, y = Death.by.TB, color = Confirmed.cases.of.RR..MDR.TB)) +
+      ggtitle("Tuberculosis By Country") + 
+      scale_color_gradientn(colours = c("blue", "red")) + 
+      xlim(0, 1000000) +
+      ylim(0, 250000)
     return(plot)
   })
   #TAB 4
