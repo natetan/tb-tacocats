@@ -77,7 +77,7 @@ ui <- fluidPage(
         
         # VISUAL STUFF HERE (inside mainPanel)
         mainPanel(
-          #img(src='img/bacteria.png', align = "center"),
+          img(src='www/bacteria.png', align = "center"),
           h3("What Is It?", align = "center"),
           p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
             It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
@@ -86,10 +86,11 @@ ui <- fluidPage(
           p("Tuberculosis (TB) is one of the world’s deadliest diseases:"),
           p("1. One third of the world’s population is infected with TB."),
           p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide."),
-          p("3.TB is a leading killer of people who are HIV infected."),
+          p("3. TB is a leading killer of people who are HIV positive."),
+          p("4. Drug resistant TB has evolved and is spreading."),
           h3("How Does It Spread?", align = "center"),
           p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
-            TB germs into the air. A person needs to inhale only a few of these germs to become infected."),
+            TB bacteria into the air. A person needs to inhale only a few of these germs to become infected."),
           h3("What Are The Symptoms?", align = "center"),
           p("1. A cough that lasts more than 3 weeks"),
           p("2. Chest pain"),
@@ -277,7 +278,7 @@ server <- function(input, output) {
   # Plot not displaying
   output$tab3.plot <- renderPlot({
     plot <- ggplot(data = test.data()) +
-      geom_point(mapping = aes(x = `Incidence`, y = `Death by TB`, color = Country))
+      geom_point(mapping = aes(x = Incidence, y = Death.by.TB, color = Confirmed.cases.of.RR..MDR.TB))
     return(plot)
   })
   #TAB 4
