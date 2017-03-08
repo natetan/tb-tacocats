@@ -14,10 +14,10 @@ drug.resistant <- read.csv("data/tb-country-drug-resistant.csv", stringsAsFactor
 gdp <- read.csv("data/GDPcap_NOClimateChange_RCP85_SSP5.csv", stringsAsFactors = F)
 main.data <- read.csv("data/main-data.csv", stringsAsFactors = F)
 
+
 country.names <- (main.data) %>% 
   filter(Year == 2015) %>% 
   select(2)
-
 
 combined.data <- left_join(incidence, mortality) %>% 
   left_join(drug.resistant)
@@ -64,58 +64,60 @@ ui <- fluidPage(
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
-              
-              # TAB 1
-              tabPanel(
-                'Panel 1',
-                titlePanel("Tuberculosis"),
-                #strong(textOutput('hi')),
-                #sidebarLayout(
-                # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                # sidebarPanel(
-                #selectInput(
-                #'testing',
-                #label = 'Testing',
-                #choices = c('Yes', 'No')
-                # )
-                #),
-                # WIDGET STUFF END
-                
-                # VISUAL STUFF HERE (inside mainPanel)
-                mainPanel(
-                  #img(src='img/bacteria.png', align = "center"),
-                  h3("What Is It?", align = "center"),
-                  p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
-                    It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
-                    em("Mycobacterium tuberculosis"),"causes it."),
-                  h3("Why Is It Important?", align = "center"),
-                  p("Tuberculosis (TB) is one of the world’s deadliest diseases:"),
-                  p("1. One third of the world’s population is infected with TB."),
-                  p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide."),
-                  p("3.TB is a leading killer of people who are HIV infected."),
-                  h3("How Does It Spread?", align = "center"),
-                  p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
-                    TB germs into the air. A person needs to inhale only a few of these germs to become infected."),
-                  h3("What Are The Symptoms?", align = "center"),
-                  p("1. A cough that lasts more than 3 weeks"),
-                  p("2. Chest pain"),
-                  p("3. Coughing up blood"),
-                  p("4. Feeling tired all the time"),
-                  p("5. Night sweats"),
-                  p("6. Chills"),
-                  p("7. Fever"),
-                  p("8. Loss of appetite"),
-                  p("9. Weight loss"),
-                  #selectInput(
-                  #'testing4',
-                  #label = 'Testing first panel',
-                  #choices = c('Yes', 'No')
-                  #),
-                  tableOutput('table1')
-                  )
-                # VISUAL STUFF END
-                #)
-              ),
+  # TAB 1
+  tabPanel(
+    'Panel 1',
+    titlePanel("Tuberculosis"),
+    #strong(textOutput('hi')),
+    #sidebarLayout(
+    # WIDGET STUFF GOES HERE (inside sidebarPanel)
+    # sidebarPanel(
+    #selectInput(
+    #'testing',
+    #label = 'Testing',
+    #choices = c('Yes', 'No')
+    # )
+    #),
+    # WIDGET STUFF END
+    
+    # VISUAL STUFF HERE (inside mainPanel)
+    img(src='bacteria.png', align = "left", width=475, height=325),
+    h3("What Is It?", align = "center"),
+    p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
+      It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
+      em("Mycobacterium tuberculosis"),"causes it.", align = "center"),
+    h3("Why Is It Important?", align = "center"),
+    p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
+    p("1. One third of the world’s population is infected with TB.", align = "center"),
+    p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
+    p("3. TB is a leading killer of people who are HIV positive.", align = "center"),
+    p("4. Drug resistant TB has evolved and is spreading.", align = "center"),
+    h3("How Does It Spread?", align = "center"),
+    p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
+      TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
+          img(src='symptoms.png', align = "right", width=475, height=300),
+          h3("What Are The Symptoms?", align = "center"),
+          p("1. A cough that lasts more than 3 weeks",align = "center"),
+          p("2. Chest pain",align = "center"),
+          p("3. Coughing up blood",align = "center"),
+          p("4. Feeling tired all the time",align = "center"),
+          p("5. Night sweats",align = "center"),
+          p("6. Chills",align = "center"),
+          p("7. Fever",align = "center"),
+          p("8. Loss of appetite",align = "center"),
+          p("9. Weight loss",align = "center"),
+          h3("What's Happening Within The Body?",align = "center"),
+          img(src='progression.png', align = "right"),
+          #selectInput(
+            #'testing4',
+            #label = 'Testing first panel',
+            #choices = c('Yes', 'No')
+          #),
+          tableOutput('table1')
+        # VISUAL STUFF END
+      #)
+    ),
+
               
               # TAB 2 MAP STUFF
               tabPanel(
@@ -123,9 +125,10 @@ ui <- fluidPage(
                 sidebarLayout(
                   # WIDGET STUFF GOES HERE (inside sidebarPanel)
                   sidebarPanel(
-                    radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Resistant', 'HIV'), selected = 'Incidence'
-                    ),
-                    selectInput('map.year',label = "Year",choices = 2000:2015)
+
+                    radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Drug Resistance', 'HIV'), selected = 'Incidence'),
+                    selectInput('map.year',label = "Year",choices = 2000:2015),
+                    textOutput('tab2text')
                   ),
                   # WIDGET STUFF END
                   
@@ -146,8 +149,15 @@ ui <- fluidPage(
                     selectInput(
                       'tab3.y.axis',
                       label = 'Y Axis',
-                      choices = c('Incidence', 'Mortality', 'Drug Resistant')
-                    )
+
+                      choices = c('Mortality', 
+                                  'Treated For Drug Resistance', 
+                                  'HIV')
+                    ),
+                    selectInput(
+                      'tab3.year',
+                      label = 'Year',
+                      choices = c(main.data$Year))
                   ),
                   # WIDGET STUFF END
                   
@@ -169,6 +179,7 @@ ui <- fluidPage(
                     
                     selectInput("country1", label = "Country 1",choices = country.names[,1]),
                     selectInput("country2", label = "Country 2",choices = country.names[,1])
+
                   ),
                   # WIDGET STUFF END
                   
@@ -176,6 +187,7 @@ ui <- fluidPage(
                   mainPanel(
                     plotOutput('tab4.plot')
                     
+
                   )
                   # VISUAL STUFF END
                 )
@@ -214,7 +226,10 @@ ui <- fluidPage(
                 )
               )
               )
+
 )
+
+
 
 
 # Ali's code
@@ -244,7 +259,6 @@ server <- function(input, output) {
   # Take in world data and add ISO3 for later sorting
   world_data <- map_data("world") %>% 
     mutate(ISO3 = iso.alpha(region, n=3))
-  View(world_data)
   
   tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
   map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
@@ -255,36 +269,68 @@ server <- function(input, output) {
   hiv <- select(map_tb, long,lat,group,Year,ISO3, Incidence.per.100.000.people..HIV.positive)
   
   filtered <- reactive({
-    data <- switch(input$map.type, Incidence = incidence1, Mortality = death1, Resistant = mutated, HIV = hiv) %>%
+    data <- switch(input$map.type, Incidence = incidence1, Mortality = death1, `Drug Resistance` = mutated, HIV = hiv) %>%
       filter(Year == input$map.year)
     
     return(data)
+    
+    
   })
   
   # Map plot
   output$tab2mapplot <- renderPlot({
     ggplot(data = filtered(), aes(long,lat,group=group, fill = filtered()[,6])) + geom_polygon() +
       #facet_wrap(~ Year)+
-      ggtitle("Tuberculosis Over Time")
+      ggtitle("Tuberculosis Over Time")+ 
+      scale_fill_gradientn(colours = c("yellow", "red"), na.value = "white")
+  })
+  
+  # Text Output
+  output$tab2text <-  renderText({
+    type.result <- input$map.type
+    if (type.result == 'HIV') {
+      type.result <- 'cases of TB given HIV'
+    }
+    output <- paste0('This map shows ', type.result, ' in each country for the year ', input$map.year)
+    return(output)
   })
   
   
   #TAB 3 
-  test.data <- reactive({
-    data <- main.data %>% 
+  tab3.better.data <- read.csv("data/better-data.csv", stringsAsFactors = F)
+  colnames(tab3.better.data) <- c("X", "Country",
+                                  "Year",
+                                  "Incidence",
+                                  "Incidence per 100,000 people",
+                                  "Incidence (HIV positive)",
+                                  "Incidence per 100,000 people (HIV positive",
+                                  "Death by TB",
+                                  "Death by TB per 100,000 people",
+                                  "Drug Resistant TB cases among TB cases",
+                                  "New cases tested for RR-/MDR-TB",
+                                  "Previously treated cases of RR-/MDR-TB",
+                                  "Confirmed cases of RR-/MDR-TB",
+                                  "Cases started on MDR-TB treatment")
+  
+  tab3.data <- reactive({
+    data <- tab3.better.data %>% 
       filter(Year == 2015)
     return(data)
   })
   # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
   # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlot({
-    plot <- ggplot(data = test.data()) +
+    plot <- ggplot(data = tab3.data()) +
       
-      geom_point(mapping = aes(x = Incidence, y = Death.by.TB, color = Confirmed.cases.of.RR..MDR.TB)) +
+      geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
       ggtitle("Tuberculosis By Country") + 
       scale_color_gradientn(colours = c("blue", "red")) + 
       xlim(0, 1000000) +
-      ylim(0, 250000)
+      xlab("Incidence") +
+      ylim(0, 250000) +
+      ylab(input$tab3.y.axis) +
+      labs(colour ='custom title')
+
     
     return(plot)
   })
@@ -312,8 +358,7 @@ server <- function(input, output) {
     
     return(plot)
   })
-  ?scale_fill_brewer
-  
+
   #TAB 5 SUMMARY
   #doesnt work 
   output$summary <- renderPrint({
