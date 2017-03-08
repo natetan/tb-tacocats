@@ -61,6 +61,16 @@ ui <- fluidPage(
 
   # TAB 1
   tabPanel(
+    tags$head(tags$style(
+      HTML('
+         #sidebar {
+            background-color: #dec4de;
+        }
+
+        body, label, input, button, select { 
+          font-family: "Arial";
+        }')
+    )),
     'Panel 1',
     titlePanel("Tuberculosis"),
     #strong(textOutput('hi')),
