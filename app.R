@@ -1,6 +1,7 @@
 # INFO 201 Final Project
 
 # Required libraries
+library(scales)
 library(dplyr)
 library(shiny)
 library(rsconnect)
@@ -308,8 +309,15 @@ server <- function(input, output) {
                                   "Confirmed cases of RR-/MDR-TB",
                                   "Cases started on MDR-TB treatment")
   
+  values <- reactiveValues()
+  values$yaxis <- ''
+  
   tab3.data <- reactive({
+    values$yaxis <- input$tab3.y.axis
     data <- tab3.better.data %>% 
+      dplyr::mutate(`Mortality` = `Death by TB`) %>% 
+      dplyr::mutate(`Treated For Drug Resistance` = `Cases started on MDR-TB treatment`) %>% 
+      dplyr::mutate(`HIV` = tab3.better.data[, 5]) %>% 
       filter(Year == input$tab3.year)
     return(data)
   })
@@ -317,25 +325,32 @@ server <- function(input, output) {
   # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlotly({
     y.axis <- input$tab3.y.axis
+    
+    
+    plot <- ggplot(data = tab3.data()) 
     if (y.axis == 'Mortality') {
-      y.axis <- `Death by TB`
+      plot <- plot + geom_point(mapping = aes(x = Incidence, y = Mortality, color = `Confirmed cases of RR-/MDR-TB`, fill = `Country`)) +
+        ylim(0, max(tab3.data()$Mortality) + mean(tab3.data()$Mortality))
     }
     if (y.axis == 'Treated For Drug Resistance') {
-      y.axis <- `Cases started on MDR-TB treatment`
+      plot <- plot + geom_point(mapping = aes(x = Incidence, y = `Treated For Drug Resistance`, color = `Confirmed cases of RR-/MDR-TB`)) +
+        ylim(0, max(tab3.data()$`Treated For Drug Resistance`) + mean(tab3.data()$`Treated For Drug Resistance`))
     }
     if (y.axis == 'HIV') {
-      y.axis <- `Incidence (HIV Positive)`
+      plot <- plot + geom_point(mapping = aes(x = Incidence, y = HIV, color = `Confirmed cases of RR-/MDR-TB`)) +
+        ylim(0, max(tab3.data()$HIV) + mean(tab3.data()$HIV))
     }
-    
-    plot <- ggplot(data = tab3.data()) +
-      geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
-      ggtitle("Tuberculosis By Country") + 
-      scale_color_gradientn(colours = c("blue", "red")) + 
-      xlim(0, 1000000) +
-      xlab("Incidence") +
-      ylim(0, 250000) +
-      ylab(input$tab3.y.axis) +
-      labs(colour ='Number of confirmed cases of RR-/MDR-TB')
+      plot <- plot +
+        ggtitle("Tuberculosis By Country") + 
+        scale_color_gradientn(colours = c("blue", "red")) + 
+        xlim(0, 1000000) +
+        xlab("Incidence") +
+        ylab(input$tab3.y.axis) +
+        labs(colour ='Number of confirmed cases of RR-/MDR-TB') +
+        # scales library removes scientific notation and adds commas to values
+        scale_x_continuous(labels = comma) +
+        scale_y_continuous(labels = comma) +
+        theme(legend.position="none")
     
       plot <- ggplotly(plot)
     return(plot)
