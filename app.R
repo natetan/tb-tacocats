@@ -62,7 +62,7 @@ better.data <- combined.data %>%
 
 countries <- map_data('world')
 
-ui <- fluidPage(theme = shinytheme("cyborg"),
+ui <- fluidPage(theme = shinytheme("flatly"),
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
@@ -83,7 +83,7 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
                 # WIDGET STUFF END
                 
                 # VISUAL STUFF HERE (inside mainPanel)
-                img(src='bacteria.png', align = "left", width=475, height=325),
+                img(src='bacteria.png', align = "left", width=480, height=350),
                 h3("What Is It?", align = "center"),
                 p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
                   It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
@@ -97,7 +97,7 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
                 h3("How Does It Spread?", align = "center"),
                 p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
                   TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
-                img(src='symptoms.png', align = "right", width=475, height=300),
+                img(src='symptoms.png', align = "right", width=475, height=310),
                 h3("What Are The Symptoms?", align = "center"),
                 p("1. A cough that lasts more than 3 weeks",align = "center"),
                 p("2. Chest pain",align = "center"),
@@ -192,7 +192,8 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
               # TAB 5
               tabPanel(
                 'Panel 5',
-                verbatimTextOutput("summary"),
+                #verbatimTextOutput("summary"),
+                tableOutput("table"),
                 sidebarLayout(
                   # WIDGET STUFF GOES HERE (inside sidebarPanel)
                   sidebarPanel(
@@ -366,9 +367,10 @@ server <- function(input, output) {
   })
   
   #TAB 5 SUMMARY
-  #doesnt work 
-  output$summary <- renderPrint({
-    summary(combined.data)
+  #SR+TILL NEEDS WORK
+  tab5.better.data <- tab3.better.data[4:9]
+  output$table <- renderTable({
+    data.frame(summary(tab5.better.data))
   })
 }
 
