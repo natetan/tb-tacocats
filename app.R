@@ -117,9 +117,9 @@ ui <- fluidPage(
                 sidebarLayout(
                   # WIDGET STUFF GOES HERE (inside sidebarPanel)
                   sidebarPanel(
-                    radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Resistant', 'HIV'), selected = 'Incidence'
-                    ),
-                    selectInput('map.year',label = "Year",choices = 2000:2015)
+                    radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Drug Resistance', 'HIV'), selected = 'Incidence'),
+                    selectInput('map.year',label = "Year",choices = 2000:2015),
+                    textOutput('tab2text')
                   ),
                   # WIDGET STUFF END
                   
@@ -260,10 +260,12 @@ server <- function(input, output) {
   hiv <- select(map_tb, long,lat,group,Year,ISO3, Incidence.per.100.000.people..HIV.positive)
   
   filtered <- reactive({
-    data <- switch(input$map.type, Incidence = incidence1, Mortality = death1, Resistant = mutated, HIV = hiv) %>%
+    data <- switch(input$map.type, Incidence = incidence1, Mortality = death1, `Drug Resistance` = mutated, HIV = hiv) %>%
       filter(Year == input$map.year)
     
     return(data)
+    
+    
   })
   
   
@@ -275,10 +277,17 @@ server <- function(input, output) {
       #facet_wrap(~ Year)+
       ggtitle("Tuberculosis Over Time")+ 
       scale_fill_gradientn(colours = c("yellow", "red"), na.value = "white")
+  })
   
-  # Text Output ### Please help
-  #output$tab2text <-  renderText("This map shows" Tuberculosis infection rate per 100,000 people "in each country for the year" 2015)
-  #})
+  # Text Output
+  output$tab2text <-  renderText({
+    type.result <- input$map.type
+    if (type.result == 'HIV') {
+      type.result <- 'cases of TB given HIV'
+    }
+    output <- paste0('This map shows ', type.result, ' in each country for the year ', input$map.year)
+    return(output)
+  })
   
   
   #TAB 3 
