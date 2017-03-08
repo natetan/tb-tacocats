@@ -6,10 +6,7 @@ library(shiny)
 library(rsconnect)
 library(ggplot2)
 library(tidyr)
-<<<<<<< HEAD
 library(plotly)
-=======
->>>>>>> f2a44cc3b94f157ace4bc59937c607c014bff3ef
 
 incidence <- read.csv("data/tb-country-incidence.csv", stringsAsFactors = F)
 incidence.region <- read.csv("data/tb-region-incidence.csv", stringsAsFactors = F)
