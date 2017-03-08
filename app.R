@@ -59,6 +59,7 @@ ui <- fluidPage(
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
+
               # TAB 1
               tabPanel(
                 'Panel 1',
@@ -217,9 +218,10 @@ ui <- fluidPage(
                   # VISUAL STUFF END
                 )
               )
-            )
-
+              )
+  
 )
+
 
 
 
@@ -291,8 +293,23 @@ server <- function(input, output) {
   
   
   #TAB 3 
+  tab3.better.data <- read.csv("data/better-data.csv", stringsAsFactors = F)
+  colnames(tab3.better.data) <- c("X", "Country",
+                                  "Year",
+                                  "Incidence",
+                                  "Incidence per 100,000 people",
+                                  "Incidence (HIV positive)",
+                                  "Incidence per 100,000 people (HIV positive",
+                                  "Death by TB",
+                                  "Death by TB per 100,000 people",
+                                  "Drug Resistant TB cases among TB cases",
+                                  "New cases tested for RR-/MDR-TB",
+                                  "Previously treated cases of RR-/MDR-TB",
+                                  "Confirmed cases of RR-/MDR-TB",
+                                  "Cases started on MDR-TB treatment")
+  
   test.data <- reactive({
-    data <- main.data %>% 
+    data <- tab3.better.data %>% 
       filter(Year == 2015)
     return(data)
   })
@@ -300,17 +317,22 @@ server <- function(input, output) {
   # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlot({
     plot <- ggplot(data = test.data()) +
-
+      
       geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
       ggtitle("Tuberculosis By Country") + 
       scale_color_gradientn(colours = c("blue", "red")) + 
       xlim(0, 1000000) +
+      xlab("Incidence") +
       ylim(0, 250000) +
+      ylab(input$tab3.y.axis) +
       labs(colour ='custom title')
 
+    
     return(plot)
   })
   #TAB 4
+  
+  
   
   #TAB 5 SUMMARY
   #doesnt work 
