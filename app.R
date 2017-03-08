@@ -141,8 +141,14 @@ ui <- fluidPage(
                     selectInput(
                       'tab3.y.axis',
                       label = 'Y Axis',
-                      choices = c('Incidence', 'Mortality', 'Drug Resistant')
-                    )
+                      choices = c('Mortality', 
+                                  'Treated For Drug Resistance', 
+                                  'HIV')
+                    ),
+                    selectInput(
+                      'tab3.year',
+                      label = 'Year',
+                      choices = c(main.data$Year))
                   ),
                   # WIDGET STUFF END
                   
@@ -308,7 +314,7 @@ server <- function(input, output) {
                                   "Confirmed cases of RR-/MDR-TB",
                                   "Cases started on MDR-TB treatment")
   
-  test.data <- reactive({
+  tab3.data <- reactive({
     data <- tab3.better.data %>% 
       filter(Year == 2015)
     return(data)
@@ -316,7 +322,7 @@ server <- function(input, output) {
   # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
   # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlot({
-    plot <- ggplot(data = test.data()) +
+    plot <- ggplot(data = tab3.data()) +
       
       geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
       ggtitle("Tuberculosis By Country") + 
