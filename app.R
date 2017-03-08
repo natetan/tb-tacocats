@@ -59,6 +59,7 @@ ui <- fluidPage(
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
+
               # TAB 1
               tabPanel(
                 'Panel 1',
@@ -223,6 +224,7 @@ ui <- fluidPage(
 
 
 
+
 # Ali's code
 #ui <- fluidPage(
 #titlePanel(""),
@@ -316,10 +318,13 @@ server <- function(input, output) {
       ylim(0, 250000) +
       ylab(input$tab3.y.axis) +
       labs(colour ='custom title')
+
     
     return(plot)
   })
   #TAB 4
+  
+  
   
   #TAB 5 SUMMARY
   #doesnt work 
