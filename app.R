@@ -22,6 +22,14 @@ country.names <- (main.data) %>%
   filter(Year == 2015) %>% 
   select(2)
 
+drug.resistant.years <- (main.data) %>% 
+  select(Country,Year, Confirmed.cases.of.RR..MDR.TB) %>% 
+  spread(Year, Confirmed.cases.of.RR..MDR.TB) %>% 
+  select(2:17)
+sum.columns <- data.frame(colSums(drug.resistant.years,na.rm=TRUE)) %>% 
+  mutate(Year = 2000:2015)
+colnames(sum.columns)<- c("Total Drug Resistant", "Year")
+
 combined.data <- left_join(incidence, mortality) %>% 
   left_join(drug.resistant)
 
@@ -64,166 +72,184 @@ better.data <- combined.data %>%
 countries <- map_data('world')
 
 ui <- fluidPage(theme = shinytheme("cyborg"),
-  titlePanel(""),
-  
-  tabsetPanel(type = 'tabs',
-              # TAB 1
-              tabPanel(
-                'Panel 1',
-                titlePanel("Tuberculosis"),
-                #strong(textOutput('hi')),
-                #sidebarLayout(
-                # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                # sidebarPanel(
-                #selectInput(
-                #'testing',
-                #label = 'Testing',
-                #choices = c('Yes', 'No')
-                # )
-                #),
-                # WIDGET STUFF END
+                titlePanel(""),
                 
-                # VISUAL STUFF HERE (inside mainPanel)
-                img(src='bacteria.png', align = "left", width=475, height=325),
-                h3("What Is It?", align = "center"),
-                p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
-                  It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
-                  em("Mycobacterium tuberculosis"),"causes it.", align = "center"),
-                h3("Why Is It Important?", align = "center"),
-                p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
-                p("1. One third of the world’s population is infected with TB.", align = "center"),
-                p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
-                p("3. TB is a leading killer of people who are HIV positive.", align = "center"),
-                p("4. Drug resistant TB has evolved and is spreading.", align = "center"),
-                h3("How Does It Spread?", align = "center"),
-                p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
-                  TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
-                img(src='symptoms.png', align = "right", width=475, height=300),
-                h3("What Are The Symptoms?", align = "center"),
-                p("1. A cough that lasts more than 3 weeks",align = "center"),
-                p("2. Chest pain",align = "center"),
-                p("3. Coughing up blood",align = "center"),
-                p("4. Feeling tired all the time",align = "center"),
-                p("5. Night sweats",align = "center"),
-                p("6. Chills",align = "center"),
-                p("7. Fever",align = "center"),
-                p("8. Loss of appetite",align = "center"),
-                p("9. Weight loss",align = "center"),
-                h3("What's Happening Within The Body?",align = "center"),
-                img(src='progression.png', align = "right"),
-                #selectInput(
-                #'testing4',
-                #label = 'Testing first panel',
-                #choices = c('Yes', 'No')
-                #),
-                tableOutput('table1')
-                # VISUAL STUFF END
-                #)
-                ),
-              
-              # TAB 2 MAP STUFF
-              tabPanel(
-                'Panel 2',
-                sidebarLayout(
-                  # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                  sidebarPanel(
-                    radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Drug Resistance', 'HIV'), selected = 'Incidence'),
-                    selectInput('map.year',label = "Year",choices = 2000:2015),
-                    textOutput('tab2text')
-                  ),
-                  # WIDGET STUFF END
-                  
-                  # VISUAL STUFF HERE (inside mainPanel)
-                  mainPanel(
-                    plotOutput('tab2mapplot')
-                  )
-                  # VISUAL STUFF END
+                tabsetPanel(type = 'tabs',
+                            # TAB 1
+                            tabPanel(
+                              'Panel 1',
+                              titlePanel("Tuberculosis"),
+                              #strong(textOutput('hi')),
+                              #sidebarLayout(
+                              # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                              # sidebarPanel(
+                              #selectInput(
+                              #'testing',
+                              #label = 'Testing',
+                              #choices = c('Yes', 'No')
+                              # )
+                              #),
+                              # WIDGET STUFF END
+                              
+                              # VISUAL STUFF HERE (inside mainPanel)
+                              img(src='bacteria.png', align = "left", width=475, height=325),
+                              h3("What Is It?", align = "center"),
+                              p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
+                                It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
+                                em("Mycobacterium tuberculosis"),"causes it.", align = "center"),
+                              h3("Why Is It Important?", align = "center"),
+                              p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
+                              p("1. One third of the world’s population is infected with TB.", align = "center"),
+                              p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
+                              p("3. TB is a leading killer of people who are HIV positive.", align = "center"),
+                              p("4. Drug resistant TB has evolved and is spreading.", align = "center"),
+                              h3("How Does It Spread?", align = "center"),
+                              p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
+                                TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
+                              img(src='symptoms.png', align = "right", width=475, height=300),
+                              h3("What Are The Symptoms?", align = "center"),
+                              p("1. A cough that lasts more than 3 weeks",align = "center"),
+                              p("2. Chest pain",align = "center"),
+                              p("3. Coughing up blood",align = "center"),
+                              p("4. Feeling tired all the time",align = "center"),
+                              p("5. Night sweats",align = "center"),
+                              p("6. Chills",align = "center"),
+                              p("7. Fever",align = "center"),
+                              p("8. Loss of appetite",align = "center"),
+                              p("9. Weight loss",align = "center"),
+                              h3("What's Happening Within The Body?",align = "center"),
+                              img(src='progression.png', align = "right"),
+                              #selectInput(
+                              #'testing4',
+                              #label = 'Testing first panel',
+                              #choices = c('Yes', 'No')
+                              #),
+                              tableOutput('table1')
+                              # VISUAL STUFF END
+                              #)
+                              ),
+                            
+                            # TAB 2 MAP STUFF
+                            tabPanel(
+                              'Panel 2',
+                              sidebarLayout(
+                                # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                sidebarPanel(
+                                  radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Drug Resistance', 'HIV'), selected = 'Incidence'),
+                                  selectInput('map.year',label = "Year",choices = 2000:2015),
+                                  textOutput('tab2text')
+                                ),
+                                # WIDGET STUFF END
+                                
+                                # VISUAL STUFF HERE (inside mainPanel)
+                                mainPanel(
+                                  plotOutput('tab2mapplot')
+                                )
+                                # VISUAL STUFF END
+                              )
+                            ),
+                            
+                            # TAB 3 (GDP stuff)
+                            tabPanel(
+                              'Scatter Plot',
+                              sidebarLayout(
+                                # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                sidebarPanel(
+                                  selectInput(
+                                    'tab3.y.axis',
+                                    label = 'Y Axis',
+                                    choices = c('Mortality', 
+                                                'Treated For Drug Resistance', 
+                                                'HIV')
+                                  ),
+                                  selectInput(
+                                    'tab3.year',
+                                    label = 'Year',
+                                    choices = c(2000:2015))
+                                ),
+                                # WIDGET STUFF END
+                                
+                                # VISUAL STUFF HERE (inside mainPanel)
+                                mainPanel(
+                                  plotlyOutput('tab3.plot')
+                                )
+                                # VISUAL STUFF END
+                              )
+                            ),
+                            
+                            # TAB 4
+                            tabPanel(
+                              'Panel 4',
+                              sidebarLayout(
+                                # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                sidebarPanel(
+                                  selectInput('bar.year',label = "Year",choices = 2000:2015),
+                                  
+                                  selectInput("country1", label = "Country 1",choices = country.names[,1]),
+                                  selectInput("country2", label = "Country 2",choices = country.names[,1])
+                                ),
+                                # WIDGET STUFF END
+                                
+                                # VISUAL STUFF HERE (inside mainPanel)
+                                mainPanel(
+                                  plotOutput('tab4.plot')
+                                )
+                                # VISUAL STUFF END
+                              )
+                            ),
+                            
+                            # TAB 5
+                            tabPanel(
+                              'Panel 5',
+                              verbatimTextOutput("summary"),
+                              sidebarLayout(
+                                # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                sidebarPanel(
+                                  selectInput(
+                                    'testing2',
+                                    label = 'Testing 2',
+                                    choices = c('Yes', 'No')
+                                  ),
+                                  selectInput(
+                                    'testing5',
+                                    label = 'Second Slider!',
+                                    choices = c('Yes', 'No')
+                                  )
+                                ),
+                                # WIDGET STUFF END
+                                
+                                # VISUAL STUFF HERE (inside mainPanel)
+                                mainPanel(
+                                  selectInput(
+                                    'testing3',
+                                    label = 'Testing second panel',
+                                    choices = c('Yes', 'No')
+                                  ),
+                                  tableOutput('table2')
+                                )
+                                # VISUAL STUFF END
+                              )
+                            ),
+                            # TAB 6
+                            tabPanel(
+                              'Panel 6',
+                              sidebarLayout(
+                                # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                sidebarPanel(
+                                  actionButton("goButton", "Go!"),
+                                  actionButton("reset", "Reset")
+                                ),
+                                # WIDGET STUFF END
+                                
+                                # VISUAL STUFF HERE (inside mainPanel)
+                                mainPanel(
+                                  plotOutput('tab6.plot')
+                                )
+                                # VISUAL STUFF END
+                              )
+                            )
                 )
-              ),
-              
-              # TAB 3 (GDP stuff)
-              tabPanel(
-                'Scatter Plot',
-                sidebarLayout(
-                  # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                  sidebarPanel(
-                    selectInput(
-                      'tab3.y.axis',
-                      label = 'Y Axis',
-                      choices = c('Mortality', 
-                                  'Treated For Drug Resistance', 
-                                  'HIV')
-                    ),
-                    selectInput(
-                      'tab3.year',
-                      label = 'Year',
-                      choices = c(2000:2015))
-                  ),
-                  # WIDGET STUFF END
-                  
-                  # VISUAL STUFF HERE (inside mainPanel)
-                  mainPanel(
-                    plotlyOutput('tab3.plot')
-                  )
-                  # VISUAL STUFF END
                 )
-              ),
-              
-              # TAB 4
-              tabPanel(
-                'Panel 4',
-                sidebarLayout(
-                  # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                  sidebarPanel(
-                    selectInput('bar.year',label = "Year",choices = 2000:2015),
-                    
-                    selectInput("country1", label = "Country 1",choices = country.names[,1]),
-                    selectInput("country2", label = "Country 2",choices = country.names[,1])
-                  ),
-                  # WIDGET STUFF END
-                  
-                  # VISUAL STUFF HERE (inside mainPanel)
-                  mainPanel(
-                    plotOutput('tab4.plot')
-                  )
-                  # VISUAL STUFF END
-                )
-              ),
-              
-              # TAB 5
-              tabPanel(
-                'Panel 5',
-                verbatimTextOutput("summary"),
-                sidebarLayout(
-                  # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                  sidebarPanel(
-                    selectInput(
-                      'testing2',
-                      label = 'Testing 2',
-                      choices = c('Yes', 'No')
-                    ),
-                    selectInput(
-                      'testing5',
-                      label = 'Second Slider!',
-                      choices = c('Yes', 'No')
-                    )
-                  ),
-                  # WIDGET STUFF END
-                  
-                  # VISUAL STUFF HERE (inside mainPanel)
-                  mainPanel(
-                    selectInput(
-                      'testing3',
-                      label = 'Testing second panel',
-                      choices = c('Yes', 'No')
-                    ),
-                    tableOutput('table2')
-                  )
-                  # VISUAL STUFF END
-                )
-              )
-  )
-)
 
 
 
@@ -352,7 +378,7 @@ server <- function(input, output) {
         scale_y_continuous(labels = comma) +
         theme(legend.position="none")
     
-      plot <- ggplotly(plot)
+    plot <- ggplotly(plot)
     return(plot)
   })
   #TAB 4
@@ -385,7 +411,39 @@ server <- function(input, output) {
   output$summary <- renderPrint({
     summary(combined.data)
   })
+  
+  
+  
+  #TAB 6 Go Button 
+  
+  ts <- reactiveValues(counter=1)
+  
+  output$tab6.plot <- renderPlot({
+    plot <- ggplot(data = sum.columns) +
+      geom_point(mapping = aes(x = Year[1:ts$counter], y= `Total Drug Resistant`[1:ts$counter]))
+    
+    return(plot)
+   
+    
+    observe({
+      isolate({
+        counter=counter+1    
+      })
+      if (((isolate(ts$counter) < 100)) & (input$goButton > 0)){
+        invalidateLater(200, session)
+      }
+      
+    })
+     
+  observe({
+    if (input$reset > 0){
+      ts$counter <<- 1
+      }
+    })
+  })
+  
 }
+
 
 
 shinyApp(ui = ui, server = server)
