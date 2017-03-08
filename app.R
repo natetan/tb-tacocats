@@ -101,7 +101,7 @@ ui <- fluidPage(
           p("8. Loss of appetite",align = "center"),
           p("9. Weight loss",align = "center"),
           h3("What's Happening Within The Body?",align = "center"),
-          img(src='progression.png', align = "center",align = "center"),
+          img(src='progression.png', align = "right"),
           #selectInput(
             #'testing4',
             #label = 'Testing first panel',
