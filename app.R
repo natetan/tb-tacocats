@@ -6,6 +6,7 @@ library(shiny)
 library(rsconnect)
 library(ggplot2)
 library(tidyr)
+library(shinythemes)
 
 incidence <- read.csv("data/tb-country-incidence.csv", stringsAsFactors = F)
 incidence.region <- read.csv("data/tb-region-incidence.csv", stringsAsFactors = F)
@@ -60,22 +61,12 @@ better.data <- combined.data %>%
 
 countries <- map_data('world')
 
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("cyborg"),
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
   # TAB 1
   tabPanel(
-    tags$head(tags$style(
-      HTML('
-         #sidebar {
-            background-color: #dec4de;
-        }
-
-        body, label, input, button, select { 
-          font-family: "Arial";
-        }')
-    )),
     'Panel 1',
     titlePanel("Tuberculosis"),
     #strong(textOutput('hi')),
