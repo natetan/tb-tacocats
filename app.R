@@ -399,13 +399,13 @@ server <- function(input, output) {
   
   
   
-  #TAB 6
+  #TAB 6 Go Button 
   
-  
+  ts <- reactiveValues(counter=1)
   
   output$tab6.plot <- renderPlot({
     plot <- ggplot(data = sum.columns) +
-      geom_point(mapping = aes(x = Year[1:counter], y= `Total Drug Resistant`[1:counter]))
+      geom_point(mapping = aes(x = Year[1:ts$counter], y= `Total Drug Resistant`[1:ts$counter]))
     
     return(plot)
    
@@ -414,7 +414,7 @@ server <- function(input, output) {
       isolate({
         counter=counter+1    
       })
-      if (((isolate(counter) < 100)) & (input$goButton > 0)){
+      if (((isolate(ts$counter) < 100)) & (input$goButton > 0)){
         invalidateLater(200, session)
       }
       
@@ -422,7 +422,7 @@ server <- function(input, output) {
      
   observe({
     if (input$reset > 0){
-      counter <<- 1
+      ts$counter <<- 1
       }
     })
   })
