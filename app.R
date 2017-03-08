@@ -401,32 +401,35 @@ server <- function(input, output) {
   
   #TAB 6 Go Button 
   
-  ts <- reactiveValues(counter=1)
+  # initialize reactive values
   
-  output$tab6.plot <- renderPlot({
-    plot <- ggplot(data = sum.columns) +
-      geom_point(mapping = aes(x = Year[1:ts$counter], y= `Total Drug Resistant`[1:ts$counter]))
+  ts <- reactiveValues( counter=1)
+  
+  output$tsplot <- renderPlot({
+    plot(sum.columns$Year[1:ts$counter], sum.columns$`Total Drug Resistant`[1:ts$counter], xlim=c(2000,2016), ylim=c(0,130000), xlab="Year",
+         ylab="DRTB", type="l", main="Forecasted Cost Time series")
     
-    return(plot)
-   
-    
-    observe({
-      isolate({
-        counter=counter+1    
-      })
-      if (((isolate(ts$counter) < 100)) & (input$goButton > 0)){
-        invalidateLater(200, session)
+  })
+  
+  observe({
+    isolate({
+      if (ts$counter > 1){
+        sum.columns$Year[ts$counter]=sum.columns$Year[ts$counter-1]
       }
-      
+      ts$counter=ts$counter+1    
     })
-     
+    if (((isolate(ts$counter) < 100)) & (input$goButton > 0)){
+      invalidateLater(200, session)
+    }
+  })
+  
   observe({
     if (input$reset > 0){
       ts$counter <<- 1
-      }
-    })
+      
+    }
+    
   })
-  
 }
 
 
