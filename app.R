@@ -235,10 +235,8 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
-                                  selectInput('bar.year',label = "Year",choices = 2000:2015),
-                                  
-                                  selectInput("country1", label = "Country 1",choices = country.names[,1]),
-                                  selectInput("country2", label = "Country 2",choices = country.names[,1])
+                                  actionButton("goButton", "Go!"),
+                                  actionButton("reset", "Reset")
                                 ),
                                 # WIDGET STUFF END
                                 
@@ -406,10 +404,27 @@ server <- function(input, output) {
   
   
   output$tab6.plot <- renderPlot({
-    plot <- ggplot(data = sum.columns)+
-      geom_point(mapping = aes(x = Year, y= `Total Drug Resistant`))
+    plot <- ggplot(data = sum.columns) +
+      geom_point(mapping = aes(x = Year[1:counter], y= `Total Drug Resistant`[1:counter]))
     
     return(plot)
+   
+    
+    observe({
+      isolate({
+        counter=counter+1    
+      })
+      if (((isolate(counter) < 100)) & (input$goButton > 0)){
+        invalidateLater(200, session)
+      }
+      
+    })
+     
+  observe({
+    if (input$reset > 0){
+      counter <<- 1
+      }
+    })
   })
   
 }
