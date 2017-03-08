@@ -5,6 +5,7 @@ library(dplyr)
 library(shiny)
 library(rsconnect)
 library(ggplot2)
+library(tidyr)
 
 incidence <- read.csv("data/tb-country-incidence.csv", stringsAsFactors = F)
 incidence.region <- read.csv("data/tb-region-incidence.csv", stringsAsFactors = F)
@@ -12,6 +13,11 @@ mortality <- read.csv("data/tb-country-mortality.csv", stringsAsFactors = F)
 drug.resistant <- read.csv("data/tb-country-drug-resistant.csv", stringsAsFactors = F)
 gdp <- read.csv("data/GDPcap_NOClimateChange_RCP85_SSP5.csv", stringsAsFactors = F)
 main.data <- read.csv("data/main-data.csv", stringsAsFactors = F)
+
+
+country.names <- (main.data) %>% 
+  filter(Year == 2015) %>% 
+  select(2)
 
 combined.data <- left_join(incidence, mortality) %>% 
   left_join(drug.resistant)
@@ -58,7 +64,6 @@ ui <- fluidPage(
   titlePanel(""),
   
   tabsetPanel(type = 'tabs',
-
   # TAB 1
   tabPanel(
     tags$head(tags$style(
@@ -122,6 +127,7 @@ ui <- fluidPage(
         # VISUAL STUFF END
       #)
     ),
+
               
               # TAB 2 MAP STUFF
               tabPanel(
@@ -129,6 +135,7 @@ ui <- fluidPage(
                 sidebarLayout(
                   # WIDGET STUFF GOES HERE (inside sidebarPanel)
                   sidebarPanel(
+
                     radioButtons('map.type',label = 'Map Test',choices = c('Incidence', 'Mortality', 'Drug Resistance', 'HIV'), selected = 'Incidence'),
                     selectInput('map.year',label = "Year",choices = 2000:2015),
                     textOutput('tab2text')
@@ -152,8 +159,15 @@ ui <- fluidPage(
                     selectInput(
                       'tab3.y.axis',
                       label = 'Y Axis',
-                      choices = c('Incidence', 'Mortality', 'Drug Resistant')
-                    )
+
+                      choices = c('Mortality', 
+                                  'Treated For Drug Resistance', 
+                                  'HIV')
+                    ),
+                    selectInput(
+                      'tab3.year',
+                      label = 'Year',
+                      choices = c(main.data$Year))
                   ),
                   # WIDGET STUFF END
                   
@@ -171,27 +185,19 @@ ui <- fluidPage(
                 sidebarLayout(
                   # WIDGET STUFF GOES HERE (inside sidebarPanel)
                   sidebarPanel(
-                    selectInput(
-                      'testing2',
-                      label = 'Testing 2',
-                      choices = c('Yes', 'No')
-                    ),
-                    selectInput(
-                      'testing5',
-                      label = 'Second Slider!',
-                      choices = c('Yes', 'No')
-                    )
+                    selectInput('bar.year',label = "Year",choices = 2000:2015),
+                    
+                    selectInput("country1", label = "Country 1",choices = country.names[,1]),
+                    selectInput("country2", label = "Country 2",choices = country.names[,1])
+
                   ),
                   # WIDGET STUFF END
                   
                   # VISUAL STUFF HERE (inside mainPanel)
                   mainPanel(
-                    selectInput(
-                      'testing3',
-                      label = 'Testing second panel',
-                      choices = c('Yes', 'No')
-                    ),
-                    tableOutput('table31')
+                    plotOutput('tab4.plot')
+                    
+
                   )
                   # VISUAL STUFF END
                 )
@@ -230,7 +236,7 @@ ui <- fluidPage(
                 )
               )
               )
-  
+
 )
 
 
@@ -281,9 +287,6 @@ server <- function(input, output) {
     
   })
   
-  
-  
-  
   # Map plot
   output$tab2mapplot <- renderPlot({
     ggplot(data = filtered(), aes(long,lat,group=group, fill = filtered()[,6])) + geom_polygon() +
@@ -319,7 +322,7 @@ server <- function(input, output) {
                                   "Confirmed cases of RR-/MDR-TB",
                                   "Cases started on MDR-TB treatment")
   
-  test.data <- reactive({
+  tab3.data <- reactive({
     data <- tab3.better.data %>% 
       filter(Year == 2015)
     return(data)
@@ -327,7 +330,7 @@ server <- function(input, output) {
   # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
   # Help make widget work!!!!!!!!!!!!
   output$tab3.plot <- renderPlot({
-    plot <- ggplot(data = test.data()) +
+    plot <- ggplot(data = tab3.data()) +
       
       geom_point(mapping = aes(x = Incidence, y = `Death by TB`, color = `Confirmed cases of RR-/MDR-TB`)) +
       ggtitle("Tuberculosis By Country") + 
@@ -342,9 +345,30 @@ server <- function(input, output) {
     return(plot)
   })
   #TAB 4
+  bargraph.data <- reactive({
+    data <- main.data %>% 
+      select(Country,Year,Incidence,Death.by.TB) %>% 
+      filter(Year == input$bar.year) %>% 
+      select(Country, Incidence, Death.by.TB) %>% 
+      gather(key, value, -Country) %>% 
+      filter(Country == input$country1 | Country == input$country2 ) %>% 
+      arrange(Country)
+    return(data)
+  })
   
   
-  
+  output$tab4.plot <- renderPlot({
+    plot <- ggplot(data = bargraph.data() ) +
+      #aes(factor(Country), key, fill = value) + 
+      #geom_bar(stat="identity", position = "dodge")
+      
+      aes(x = Country ,y = value) +  
+      geom_bar(aes(fill = key), position = "dodge", stat="identity")
+    
+    
+    return(plot)
+  })
+
   #TAB 5 SUMMARY
   #doesnt work 
   output$summary <- renderPrint({
