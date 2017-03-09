@@ -97,9 +97,11 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               # VISUAL STUFF HERE (inside mainPanel)
                               sidebarLayout(
                                 sidebarPanel(
-                                  img(src='bacteria.png', align = "left", width=480, height=365),
-                                  img(src='whitebox.png', align = "left", width=480, height=60),
-                                  img(src='symptoms.png', align = "left", width=480, height=310)
+                                  img(src='bacteria.png', align = "left", width=450, height=320),
+                                  img(src='whitebox.png', align = "left", width=450, height= 60),
+                                  img(src='symptoms.png', align = "left", width=450, height=270),
+                                  img(src='whitebox.png', align = "left", width=450, height= 60),
+                                  img(src='xray.jpg', align = "left", width=450, height=270)
                                 ),
                                 mainPanel(
                               h3("What Is It? How is it Changing?", align = "center"),
