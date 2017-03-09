@@ -1,9 +1,12 @@
 # INFO 201 Final Project
-## Team Tacocats
-### Shiny App on TB
+## Tuberculosis Data
+### 3.9.17
 
-#Tuberculosis
-### Emily Nuri, Kianna Hales, Yulong Tan, Ali Salahuddin
+### Team Tacocats
+- Emily Nuri 
+- Ali Salahuddin
+- Kianna Hales
+- Yulong Tan 
 
 ## Description
 We built an app designed to help people interact with and learn from data on Tuberculosis (TB) collected from the World Health Organization. Tuberculosis is a highly contagious disease that infects the lungs.
