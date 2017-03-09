@@ -180,8 +180,16 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             # TAB 3 (Scatter Plot)
                             tabPanel(
                               'Scatter Plot',
+                              p("The Scatter Plot below presents a plotted point for each country. The Y axis can change into 
+                                    recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while the X 
+                                axis records the number of incidents. This plot can be observed by a specific year so that it 
+                                is easy to see the TB trends in each country over the years or look at a specific year of interest. 
+                                There is a hovering feature which allows one to view the specific statistics of a particular country 
+                                as well as zoom in on any plotted point, or group of plotted points, of the graph.",
+                                align = "center" ),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
+                                
                                 sidebarPanel(
                                   selectInput(
                                     'tab3.y.axis',
@@ -200,13 +208,6 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
                                   p(),
-                                  p("The Scatter Plot below presents a plotted point for each country. The Y axis can change into 
-                                    recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while the X 
-                                    axis records the number of incidents. This plot can be observed by a specific year so that it 
-                                    is easy to see the TB trends in each country over the years or look at a specific year of interest. 
-                                    There is a hovering feature which allows one to view the specific statistics of a particular country 
-                                    as well as zoom in on any plotted point, or group of plotted points, of the graph.",
-                                    align = "center" ),
                                   plotlyOutput('tab3.plot'),
                                   img(src='scatterlegend.png', align = "center", width=585, height=85),
                                   p(),
