@@ -481,6 +481,8 @@ server <- function(input, output, session) {
         )
     }
     data <- gather(data)
+    names(data)[1] <- paste("Statistic")
+    names(data)[2] <- paste("Value")
     return(data)
   })
   
