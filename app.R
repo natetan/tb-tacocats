@@ -80,6 +80,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             tabPanel(
                               'About',
                               titlePanel("Tuberculosis"),
+                              p("Emily Nuri, Ali Salahuddin, Yulong Tan, Kianna Hales", align = "left"),
                               #strong(textOutput('hi')),
                               #sidebarLayout(
                               # WIDGET STUFF GOES HERE (inside sidebarPanel)
@@ -180,6 +181,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
                                   plotlyOutput('tab3.plot'),
+                                  img(src='scatterlegend.png', align = "right", width=585, height=85),
                                   p(),
                                   p("The Scatter Plot above presents a plotted point for each country. The Y axis can change
                                     into recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while
