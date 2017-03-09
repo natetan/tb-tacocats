@@ -1,6 +1,7 @@
 # INFO 201 Final Project
 ## Tuberculosis Data
-### 3.9.17
+### Our app is hosted on [ShinyApps](https://yulongtan.shinyapps.io/tb-tacocats/)
+#### 3.9.17
 
 ### Team Tacocats
 - [Emily Nuri](https://github.com/emilynuri) 
@@ -20,5 +21,4 @@ A mutated strain has emerged called MDR/RR Tuberculosis. This strain is of parti
 As you navigate this app, you can discover for yourself the ways TB, HIV, and Drug Resistant TB are impacting this world both separately and together.
 
 ## Implementation
-We implemented this app using R as our backend in RStudio. We used a variety of R libraries to help us with the visuals, such as `ggplot2` and `plotly`. We implemented the frontend using a web application framework for R known as `Shiny`.  
-Our web app is hosted on ShinyApps and can be found [here](https://yulongtan.shinyapps.io/tb-tacocats/)
+We implemented this app using R as our backend in RStudio. We used a variety of R libraries to help us with the visuals, such as `ggplot2` and `plotly`. We implemented the frontend using a web application framework for R known as `Shiny`.
