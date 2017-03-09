@@ -203,8 +203,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             # TAB 5
                             tabPanel(
                               'Summary',
-                              tableOutput("table"),
-                              #verbatimTextOutput("summary"),
+                              #tableOutput("table"),
+                              verbatimTextOutput("summary"),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -397,8 +397,8 @@ server <- function(input, output, session) {
   #TAB 5 SUMMARY
   #STILL NEEDS WORK
   tab5.better.data <- tab3.better.data[4:9]
-  output$table <- renderTable({
-    data.frame(summary(tab5.better.data))
+  output$summary <- renderPrint({
+    summary(tab5.better.data)
   })
   
   
