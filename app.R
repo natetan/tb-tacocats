@@ -95,15 +95,15 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               # WIDGET STUFF END
                               
                               # VISUAL STUFF HERE (inside mainPanel)
-                              sidebarLayout(
-                                sidebarPanel(
+                              fluidRow(
+                                column(5,
                                   img(src='bacteria.png', align = "left", width=450, height=320),
                                   img(src='whitebox.png', align = "left", width=450, height= 60),
                                   img(src='symptoms.png', align = "left", width=450, height=270),
                                   img(src='whitebox.png', align = "left", width=450, height= 60),
                                   img(src='xray.jpg', align = "left", width=450, height=270)
                                 ),
-                                mainPanel(
+                                column(5,
                               h3("What Is It? How is it Changing?", align = "center"),
                               p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
                                 It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
