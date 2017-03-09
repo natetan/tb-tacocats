@@ -81,6 +81,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               'About',
                               titlePanel("Tuberculosis"),
                               p("Emily Nuri, Ali Salahuddin, Yulong Tan, Kianna Hales", align = "left"),
+                              h4("Citation: The data for this application was taken from World Health Organization", a("Link", href="http://www.who.int/mediacentre/factsheets/fs104/en/", align ='center')),
                               #strong(textOutput('hi')),
                               #sidebarLayout(
                               # WIDGET STUFF GOES HERE (inside sidebarPanel)
@@ -120,13 +121,13 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               p("8. Loss of appetite",align = "center"),
                               p("9. Weight loss",align = "center"),
                               h3("What's Happening Within The Body?",align = "center"),
-                              img(src='progression.png', align = "right"),
+                              img(src='progression.png', align = "right")
                               #selectInput(
                               #'testing4',
                               #label = 'Testing first panel',
                               #choices = c('Yes', 'No')
                               #),
-                              tableOutput('table1')
+                              #tableOutput('table1')
                               # VISUAL STUFF END
                               #)
                             ),
