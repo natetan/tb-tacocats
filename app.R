@@ -101,7 +101,13 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   img(src='whitebox.png', align = "left", width=450, height= 60),
                                   img(src='symptoms.png', align = "left", width=450, height=270),
                                   img(src='whitebox.png', align = "left", width=450, height= 60),
-                                  img(src='xray.jpg', align = "left", width=450, height=270)
+                                  img(src='xray.jpg', align = "left", width=450, height=270),
+                                  img(src='whitebox.png', align = "left", width=450, height= 60),
+                                  h3("Who Cares?", align = "center"),
+                                  p("This application was built for individuals minorly interested in
+                                    public health, research groups, , medical professionals, potential funding sources, 
+                                    and the general public in order to spark awareness regarding this expanding issue.",
+                                    align = "center")
                                   
                                 ),
                                 column(5, offset = 1,
