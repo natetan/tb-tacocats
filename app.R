@@ -78,7 +78,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                 tabsetPanel(type = 'tabs',
                             # TAB 1
                             tabPanel(
-                              'Panel 1',
+                              'About',
                               titlePanel("Tuberculosis"),
                               #strong(textOutput('hi')),
                               #sidebarLayout(
@@ -132,7 +132,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             
                             # TAB 2 MAP STUFF
                             tabPanel(
-                              'Panel 2',
+                              'Map',
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -180,14 +180,15 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             
                             # TAB 4
                             tabPanel(
-                              'Panel 4',
+                              'Bar Graph',
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
                                   selectInput('bar.year',label = "Year",choices = 2000:2015),
                                   
                                   selectInput("country1", label = "Country 1",choices = country.names[,1]),
-                                  selectInput("country2", label = "Country 2",choices = country.names[,1])
+                                  selectInput("country2", label = "Country 2",choices = country.names[,1]),
+                                  selectInput("country3", label = "Country 3",choices = country.names[,1])
                                 ),
                                 # WIDGET STUFF END
                                 
@@ -201,7 +202,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             
                             # TAB 5
                             tabPanel(
-                              'Panel 5',
+                              'Summary',
                               tableOutput("table"),
                               #verbatimTextOutput("summary"),
                               sidebarLayout(
@@ -234,7 +235,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             ),
                             # TAB 6
                             tabPanel(
-                              'Panel 6',
+                              'Line Graph',
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -245,35 +246,20 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotOutput('tab6.plot')
+                                  plotOutput('tsplot')
                                 )
                                 # VISUAL STUFF END
                               )
                             )
                 )
-
+                
                 )
 
 
 
 
 
-# Ali's code
-#ui <- fluidPage(
-#titlePanel(""),
-
-#mainPanel(
-#  tabsetPanel(type = "tabs",tabPanel("Introduction"), 
-#              tabPanel("Map",fluidRow(column(width = 10, (map) )),
-#                       fluidRow(column(width = 10, plotOutput("plot1")))),
-#              tabPanel("Plot")
-
-#  )
-#)
-
-#)
-
-server <- function(input, output) {
+server <- function(input, output, session) {
   #TAB 1 ABOUT TB
   
   #TAB 2 MAP
@@ -369,17 +355,17 @@ server <- function(input, output) {
       plot <- plot + geom_point(mapping = aes(x = Incidence, y = HIV, color = `Confirmed cases of RR-/MDR-TB`)) +
         ylim(0, max(tab3.data()$HIV) + mean(tab3.data()$HIV))
     }
-      plot <- plot +
-        ggtitle("Tuberculosis By Country") + 
-        scale_color_gradientn(colours = c("blue", "red")) + 
-        xlim(0, 1000000) +
-        xlab("Incidence") +
-        ylab(input$tab3.y.axis) +
-        labs(colour ='Number of confirmed cases of RR-/MDR-TB') +
-        # scales library removes scientific notation and adds commas to values
-        scale_x_continuous(labels = comma) +
-        scale_y_continuous(labels = comma) +
-        theme(legend.position="none")
+    plot <- plot +
+      ggtitle("Tuberculosis By Country") + 
+      scale_color_gradientn(colours = c("blue", "red")) + 
+      xlim(0, 1000000) +
+      xlab("Incidence") +
+      ylab(input$tab3.y.axis) +
+      labs(colour ='Number of confirmed cases of RR-/MDR-TB') +
+      # scales library removes scientific notation and adds commas to values
+      scale_x_continuous(labels = comma) +
+      scale_y_continuous(labels = comma)
+      theme(legend.position="none")
     
     plot <- ggplotly(plot)
     return(plot)
@@ -392,7 +378,7 @@ server <- function(input, output) {
       filter(Year == input$bar.year) %>% 
       select(Country, Incidence, Death.by.TB) %>% 
       gather(key, value, -Country) %>% 
-      filter(Country == input$country1 | Country == input$country2 ) %>% 
+      filter(Country == input$country1 | Country == input$country2 | Country == input$country3 ) %>% 
       arrange(Country)
     return(data)
   })
@@ -400,8 +386,6 @@ server <- function(input, output) {
   
   output$tab4.plot <- renderPlot({
     plot <- ggplot(data = bargraph.data() ) +
-      #aes(factor(Country), key, fill = value) + 
-      #geom_bar(stat="identity", position = "dodge")
       
       aes(x = Country ,y = value) +  
       geom_bar(aes(fill = key), position = "dodge", stat="identity")
@@ -421,14 +405,13 @@ server <- function(input, output) {
   
   #TAB 6 Go Button 
   
-  # initialize reactive values
   
+  # initialize reactive values
   ts <- reactiveValues( counter=1)
   
   output$tsplot <- renderPlot({
     plot(sum.columns$Year[1:ts$counter], sum.columns$`Total Drug Resistant`[1:ts$counter], xlim=c(2000,2016), ylim=c(0,130000), xlab="Year",
-         ylab="DRTB", type="l", main="Forecasted Cost Time series")
-    
+         ylab="DRTB", type="l", main="Number of Drug resistant TB Cases over time")
   })
   
   observe({
@@ -438,7 +421,7 @@ server <- function(input, output) {
       }
       ts$counter=ts$counter+1    
     })
-    if (((isolate(ts$counter) < 100)) & (input$goButton > 0)){
+    if (((isolate(ts$counter) < 17)) & (input$goButton > 0)){
       invalidateLater(200, session)
     }
   })
@@ -446,9 +429,7 @@ server <- function(input, output) {
   observe({
     if (input$reset > 0){
       ts$counter <<- 1
-      
     }
-    
   })
 }
 
