@@ -1,4 +1,5 @@
 # INFO 201 Final Project
+# Kianna Hales, Emily Nuri, Yulong Tan, Ali Salahuddin
 
 # Required libraries
 library(scales)
@@ -40,6 +41,7 @@ ModifyColumn <- function(col) {
   return(col)
 }
 
+# This makes data without periods in the column names
 better.data <- combined.data %>% 
   mutate(`Incidence` = ModifyColumn(Number.of.incident.tuberculosis.cases),
          `Incidence per 100,000 people` = ModifyColumn(Incidence.of.tuberculosis..per.100.000.population.per.year.),
@@ -76,16 +78,17 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                 titlePanel(""),
                 
                 tabsetPanel(type = 'tabs',
-                            # TAB 1
+                            # TAB 1: Introduction
                             tabPanel(
                               'About',
                               titlePanel("Tuberculosis"),
                               p("Emily Nuri, Ali Salahuddin, Yulong Tan, Kianna Hales", align = "left"),
                               h4("Citation: The data for this application was taken from World Health Organization", a("Link", href="http://www.who.int/mediacentre/factsheets/fs104/en/", align ='center')),
-                              # WIDGET STUFF END
                               
                               # VISUAL STUFF HERE (inside mainPanel)
+                              # Use colums to make flexible front page
                               fluidRow(
+                                # contains all pictures in left column and who cares
                                 column(5,
                                        img(src='bacteria.png', align = "left", width=450, height=320),
                                        img(src='whitebox.png', align = "left", width=450, height= 60),
@@ -100,6 +103,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                          align = "center")
                                        
                                 ),
+                                # contains project background and description
                                 column(5, offset = 1,
                                        h3("What Is It? How is it Changing?", align = "center"),
                                        p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
@@ -132,7 +136,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                        ))
                                 ),
                             
-                            # TAB 2 MAP STUFF
+                            # TAB 2 MAP
                             tabPanel(
                               'Map',
                               sidebarLayout(
@@ -202,7 +206,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   )
                                 ),
                             
-                            # TAB 4
+                            # TAB 4 Bar Graph
                             tabPanel(
                               'Bar Graph',
                               sidebarLayout(
@@ -232,7 +236,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   )
                                 ),
                             
-                            # TAB 5
+                            # TAB 5 Summary Table
                             tabPanel(
                               'Summary',
                               tableOutput("table"),
@@ -271,7 +275,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 # VISUAL STUFF END
                               )
                               ),
-                            # TAB 6
+                            # TAB 6 Animated Line Graph
                             tabPanel(
                               'Line Graph',
                               sidebarLayout(
