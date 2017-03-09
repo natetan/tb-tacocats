@@ -1,5 +1,5 @@
-# INFO 201 Final Project
-## Team Tacocats
+### INFO 201 Final Project
+### Team Tacocats
 ### Shiny App on TB
 
 #Tuberculosis
@@ -8,7 +8,7 @@
 ## Description
 We built an app designed to help people interact with and learn from data on Tuberculosis (TB) collected from the World Health Organization. Tuberculosis is a highly contagious disease that infects the lungs.
 
-### HIV & TB
+## HIV & TB
 HIV and TB are commonly linked together because as an individual's immune system becomes compromised through contraction of HIV, it becomes significantly more likely that one will catch Tuberculosis.
 
 ## Multi-drug-resistant TB
