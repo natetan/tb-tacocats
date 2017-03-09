@@ -95,25 +95,33 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               # WIDGET STUFF END
                               
                               # VISUAL STUFF HERE (inside mainPanel)
-                              img(src='bacteria.png', align = "left", width=480, height=350),
-                              h3("What Is It?", align = "center"),
+                              sidebarLayout(
+                                sidebarPanel(
+                                  img(src='bacteria.png', align = "left", width=480, height=365),
+                                  img(src='whitebox.png', align = "left", width=480, height=60),
+                                  img(src='symptoms.png', align = "left", width=480, height=310)
+                                ),
+                                mainPanel(
+                              h3("What Is It? How is it Changing?", align = "center"),
                               p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
                                 It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
-                                em("Mycobacterium tuberculosis"),"causes it.", align = "center"),
+                                em("Mycobacterium tuberculosis"),"causes it. MDR/RR Tuberculosis is Multi Drug Resistant Tuberculosis
+                                that is immune to the most common TB treatment drugs including isoniazid (INH) and rifampicin (RMP).
+                                Humans and Tuberculosis are effectively in an arms race to find cures and evolve, respectively. ", align = "center"),
                               h3("Why Is It Important?", align = "center"),
                               p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
-                              p("1. One third of the world’s population is infected with TB.", align = "center"),
-                              p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
-                              p("3. TB is a leading killer of people who are HIV positive.", align = "center"),
-                              p("4. Drug resistant TB has evolved and is spreading.", align = "center"),
+                              p("1. TB is one of the top 10 causes of death worldwide.", align = "center"),
+                              p("2. TB is a leading killer of people who are HIV positive.", align = "center"),
+                              p("3. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
+                              p("4. Drug resistant TB has evolved and is spreading. It was first recorded globally by the World Health Organization in 2005, and has since spread across continents.", align = "center"),
                               h3("How Does It Spread?", align = "center"),
-                              p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
-                                TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
-                              img(src='symptoms.png', align = "right", width=475, height=310),
+                              p("TB spreads from person to person through the air. When people", align="center"), 
+                              p("with TB cough, sneeze or spit, they propel the", align="center"), 
+                              p("TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
                               h3("What Are The Symptoms?", align = "center"),
-                              p("1. A cough that lasts more than 3 weeks",align = "center"),
+                              p("1. A cough that lasts more than 3 weeks", align = "center"),
                               p("2. Chest pain",align = "center"),
-                              p("3. Coughing up blood",align = "center"),
+                              p("3. Coughing up blood", align = "center"),
                               p("4. Feeling tired all the time",align = "center"),
                               p("5. Night sweats",align = "center"),
                               p("6. Chills",align = "center"),
@@ -121,7 +129,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               p("8. Loss of appetite",align = "center"),
                               p("9. Weight loss",align = "center"),
                               h3("What's Happening Within The Body?",align = "center"),
-                              img(src='progression.png', align = "right")
+                              img(src='progression.png', align = "center")
+                              ))
                               #selectInput(
                               #'testing4',
                               #label = 'Testing first panel',
@@ -130,7 +139,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               #tableOutput('table1')
                               # VISUAL STUFF END
                               #)
-                            ),
+                              ),
                             
                             # TAB 2 MAP STUFF
                             tabPanel(
@@ -154,12 +163,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                     application can show you which data you are currently looking at. Because  Drug Resistant strains of TB are new and 
                                     rising, there are no recorded data on them before 2005. Countries with no data collected are represented by empy spaces
                                     here to allow for focus on data available", align = "center")
-                                )
+                                  )
                                 # VISUAL STUFF END
-                              )
-                            ),
+                                  )
+                                ),
                             
-                            # TAB 3 (GDP stuff)
+                            # TAB 3 (Scatter Plot)
                             tabPanel(
                               'Scatter Plot',
                               sidebarLayout(
@@ -181,26 +190,25 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotlyOutput('tab3.plot'),
-                                  img(src='scatterlegend.png', align = "right", width=585, height=85),
                                   p(),
-                                  p("The Scatter Plot above presents a plotted point for each country. The Y axis can change
-                                    into recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while
-                                    the X axis records the number of incidents. The gradual color represents the number of
-                                    confirmed RR MDR cases which is useful for determining where the drug resistant strains
-                                    originated, under what previous conditions, where they thrive outside of origin, and where
-                                    we should focus our research as this disease rises. We see that drug resistant cases are not
-                                    recorded until 2005, after which the color corresponds to the amount of drug resistant cases.",
+                                  p("The Scatter Plot below presents a plotted point for each country. The Y axis can change into 
+                                    recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while the X 
+                                    axis records the number of incidents. This plot can be observed by a specific year so that it 
+                                    is easy to see the TB trends in each country over the years or look at a specific year of interest. 
+                                    There is a hovering feature which allows one to view the specific statistics of a particular country 
+                                    as well as zoom in on any plotted point, or group of plotted points, of the graph.",
                                     align = "center" ),
+                                  plotlyOutput('tab3.plot'),
+                                  img(src='scatterlegend.png', align = "center", width=585, height=85),
                                   p(),
-                                  p("This plot can be observed by a specific year so that it is easy to see the TB trends in each
-                                    country over the years or look at a specific year of interest. There is a hovering feature
-                                    which allows one to view the specific statistics of a particular country as well as zoom in
-                                    on any plotted point, or group of plotted points, of the graph.", align = "center")
-                                )
+                                  p("The color reflects the number of confirmed RR MDR cases which is useful for determining
+                                    where the drug resistant strains originated, under what previous conditions, where they thrive outside
+                                    of origin, and where we should focus our research as this disease rises. We see that drug resistant cases 
+                                    are not recorded until 2005, after which the color corresponds to the amount of drug resistant cases.", align = "center")
+                                  )
                                 # VISUAL STUFF END
-                              )
-                            ),
+                                  )
+                                ),
                             
                             # TAB 4
                             tabPanel(
@@ -222,9 +230,9 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   p(),
                                   p("This Bar graph compares one, two or three country`s Incidence of TB and
                                     Death by TB rates. This is useful for comparing specific countries of interest.", align = "center")
-                                )
+                                  )
                                 # VISUAL STUFF END
-                              )
+                                )
                             ),
                             
                             # TAB 5
@@ -278,13 +286,13 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                     By using the Go Button, the animation will play in order to demonstrate the rate of 
                                     growth of Drug Resistant TB. This demonstrates the strain's ability to propagate and 
                                     the serious danger it presents to global health.", align = "center")
-                                )
+                                  )
                                 # VISUAL STUFF END
+                                  )
+                                )
                               )
-                            )
-                )
                 
-)
+                            )
 
 
 
@@ -404,10 +412,10 @@ server <- function(input, output, session) {
   
   #TAB 4
   bargraph.data <- reactive({
-    data <- main.data %>% 
-      select(Country,Year,Incidence,Death.by.TB) %>% 
+    data <- tab3.better.data %>% 
+      select(Country,Year,Incidence, `Death by TB`) %>% 
       filter(Year == input$bar.year) %>% 
-      select(Country, Incidence, Death.by.TB) %>% 
+      select(Country, Incidence, `Death by TB`) %>% 
       gather(key, value, -Country) %>% 
       filter(Country == input$country1 | Country == input$country2 | Country == input$country3 ) %>% 
       arrange(Country)
@@ -419,7 +427,8 @@ server <- function(input, output, session) {
     plot <- ggplot(data = bargraph.data() ) +
       
       aes(x = Country ,y = value) +  
-      geom_bar(aes(fill = key), position = "dodge", stat="identity")
+      geom_bar(aes(fill = key), position = "dodge", stat="identity") +
+      ggtitle("TB Incidence & Mortality by Selected Countries")
     
     
     return(plot)
