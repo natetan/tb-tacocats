@@ -144,7 +144,14 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotOutput('tab2mapplot')
+                                  plotOutput('tab2mapplot'),
+                                  p(),
+                                  p("This map provides the ability to view incidence of TB, Mortality from TB, occurrences of Drug Resistant TB, and
+                                    TB occurrence given HIV positive cases across a global map. It is also possible to select a specific year for each
+                                    of these categories in order to observe trends in the data over time. The description on the left side of the 
+                                    application can show you which data you are currently looking at. Because  Drug Resistant strains of TB are new and 
+                                    rising, there are no recorded data on them before 2005. Countries with no data collected are represented by empy spaces
+                                    here to allow for focus on data available", align = "center")
                                 )
                                 # VISUAL STUFF END
                               )
@@ -172,7 +179,21 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotlyOutput('tab3.plot')
+                                  plotlyOutput('tab3.plot'),
+                                  p(),
+                                  p("The Scatter Plot above presents a plotted point for each country. The Y axis can change
+                                    into recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while
+                                    the X axis records the number of incidents. The gradual color represents the number of
+                                    confirmed RR MDR cases which is useful for determining where the drug resistant strains
+                                    originated, under what previous conditions, where they thrive outside of origin, and where
+                                    we should focus our research as this disease rises. We see that drug resistant cases are not
+                                    recorded until 2005, after which the color corresponds to the amount of drug resistant cases.",
+                                    align = "center" ),
+                                  p(),
+                                  p("This plot can be observed by a specific year so that it is easy to see the TB trends in each
+                                    country over the years or look at a specific year of interest. There is a hovering feature
+                                    which allows one to view the specific statistics of a particular country as well as zoom in
+                                    on any plotted point, or group of plotted points, of the graph.", align = "center")
                                 )
                                 # VISUAL STUFF END
                               )
@@ -194,7 +215,10 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotOutput('tab4.plot')
+                                  plotOutput('tab4.plot'),
+                                  p(),
+                                  p("This Bar graph compares one, two or three country`s Incidence of TB and
+                                    Death by TB rates. This is useful for comparing specific countries of interest.", align = "center")
                                 )
                                 # VISUAL STUFF END
                               )
@@ -246,7 +270,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  plotOutput('tsplot')
+                                  plotOutput('tsplot'),
+                                  p(),
+                                  p("The Line plot shows the number of recorded Drug Resistant TB case from 2000 to 2015.
+                                    By using the Go Button, the animation will play in order to demonstrate the rate of 
+                                    growth of Drug Resistant TB. This demonstrates the strain's ability to propagate and 
+                                    the serious danger it presents to global health.", align = "center")
                                 )
                                 # VISUAL STUFF END
                               )
