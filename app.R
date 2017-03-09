@@ -315,9 +315,9 @@ ui <- fluidPage(theme = shinytheme("flatly"),
 
 
 server <- function(input, output, session) {
-  #TAB 1 ABOUT TB
   
-  #TAB 2 MAP
+  # Data for the Map
+  
   tb.data <- read.csv("data/main-data.csv", stringsAsFactors = F)
   Country.edited <- gsub("United States of America", "USA",tb.data$Country)
   altered.tb.data <- mutate(tb.data, Country.edited)
@@ -327,9 +327,11 @@ server <- function(input, output, session) {
   world_data <- map_data("world") %>% 
     mutate(ISO3 = iso.alpha(region, n=3))
   
+  # Joins the tb data into maps
   tb_world_data <- `colnames<-`(world_data, c('long','lat', 'group', 'order', 'name', 'subregion', 'ISO3'))
   map_tb <- left_join(tb_world_data, tb.data.iso, by = 'ISO3')
   
+  # Filtering the data by choices of the select input
   incidence1 <- select(map_tb, long,lat,group,Year,ISO3, Incidence.per.100.000.people)
   death1 <- select(map_tb, long,lat,group,Year,ISO3, Death.by.TB.per.100.000.people)
   mutated <- select(map_tb, long,lat,group,Year,ISO3, Confirmed.cases.of.RR..MDR.TB)
@@ -344,7 +346,7 @@ server <- function(input, output, session) {
     
   })
   
-  # Map plot
+  # Plots map data for tb in the given year
   output$tab2mapplot <- renderPlot({
     ggplot(data = filtered(), aes(long,lat,group=group, fill = filtered()[,6])) + geom_polygon() +
       #facet_wrap(~ Year)+
@@ -352,7 +354,7 @@ server <- function(input, output, session) {
       scale_fill_gradientn(colours = c("yellow", "red"), na.value = "white")
   })
   
-  # Text Output
+  # Outputs text that matches what the user selected
   output$tab2text <-  renderText({
     type.result <- input$map.type
     if (type.result == 'HIV') {
@@ -363,7 +365,7 @@ server <- function(input, output, session) {
   })
   
   
-  #TAB 3 
+  # Renames the main data table to have better table names
   tab3.better.data <- read.csv("data/better-data.csv", stringsAsFactors = F)
   colnames(tab3.better.data) <- c("X", "Country",
                                   "Year",
@@ -379,9 +381,11 @@ server <- function(input, output, session) {
                                   "Confirmed cases of RR-/MDR-TB",
                                   "Cases started on MDR-TB treatment")
   
+  # Reactive values for the yaxis variable
   values <- reactiveValues()
   values$yaxis <- ''
   
+  # Gets a reactive data set for the scatter plot
   tab3.data <- reactive({
     values$yaxis <- input$tab3.y.axis
     data <- tab3.better.data %>% 
@@ -391,12 +395,12 @@ server <- function(input, output, session) {
       filter(Year == input$tab3.year)
     return(data)
   })
-  # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
-  # Help make widget work!!!!!!!!!!!!
+  
+  # Renders a scatter plot using plotly
   output$tab3.plot <- renderPlotly({
     y.axis <- input$tab3.y.axis
     
-    
+    # Plots and changes the y axis limits using the max and mean of the chosen column
     plot <- ggplot(data = tab3.data()) 
     if (y.axis == 'Mortality') {
       plot <- plot + geom_point(mapping = aes(x = Incidence, y = Mortality, color = `Confirmed cases of RR-/MDR-TB`, fill = `Country`)) +
