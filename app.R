@@ -227,8 +227,8 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             # TAB 5
                             tabPanel(
                               'Summary',
-                              #tableOutput("table"),
-                              verbatimTextOutput("summary"),
+                              tableOutput("table"),
+                              #verbatimTextOutput("summary"),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -424,10 +424,92 @@ server <- function(input, output, session) {
   })
   
   #TAB 5 SUMMARY
-  #STILL NEEDS WORK
-  tab5.better.data <- tab3.better.data[4:9]
-  output$summary <- renderPrint({
-    summary(tab5.better.data)
+  #Can you add 6 radio buttons for this? For each data frame ex. 2005 Incidence, 2005 Incidence per 100, 2005 HIv, etc. 
+  tab5.data.2005 <- filter(tab3.better.data, Year == '2005')
+  tab5.data.2005 <- tab5.data.2005[4:9]
+  
+  tab5.data.2015 <- filter(tab3.better.data, Year == '2015')
+  tab5.data.2015 <- tab5.data.2015[4:9]
+  
+  summary.incidence.2005 <- tab5.data.2005 %>% drop_na() %>% 
+    summarize(
+      `Incidence min 2005` = min(Incidence),
+      `Incidence mean 2005` = mean(Incidence),
+      `Incidence median 2005` = median(Incidence),
+      `Incidence max 2005` = max(Incidence),
+      `Incidence per 100.min.2005` = min(`Incidence per 100,000 people`),
+      `Incidence per 100.mean.2005` = mean(`Incidence per 100,000 people`),
+      `Incidence per 100.median.2005` = median(`Incidence per 100,000 people`),
+      `Incidence per 100.max.2005` = max(`Incidence per 100,000 people`)
+    ) %>% gather()
+  
+  
+  summary.incidence.2015 <- tab5.data.2015 %>% drop_na() %>% 
+    summarize(
+      `Incidence Min 2015` = min(Incidence),
+      `Incidence Mean 2015` = mean(Incidence),
+      `Incidence Median 2015` = median(Incidence),
+      `Incidence Max 2015` = max(Incidence),
+      `Incidence per 100 Min 2015` = min(`Incidence per 100,000 people`),
+      `Incidence per 100 Mean 2015` = mean(`Incidence per 100,000 people`),
+      `Incidence per 100 Median 2015` = median(`Incidence per 100,000 people`),
+      `Incidence per 100 Max 2015` = max(`Incidence per 100,000 people`)
+    ) %>% gather()
+  
+  
+  summary.HIV.2005 <- tab5.data.2005 %>% drop_na() %>% 
+    summarize(
+      `HIV Min 2005` = min(`Incidence (HIV positive)`),
+      `HIV Mean 2005` = mean(`Incidence (HIV positive)`),
+      `HIV Median 2005` = median(`Incidence (HIV positive)`),
+      `HIV Max 2005` = max(`Incidence (HIV positive)`),
+      `HIV per 100 Min 2005` = min(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Mean 2005` = mean(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Median 2005` = median(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Max 2005` = max(`Incidence per 100,000 people (HIV positive`)
+    ) %>% gather()
+  
+  
+  summary.HIV.2015 <- tab5.data.2015 %>% drop_na() %>% 
+    summarize(
+      `HIV Min 2015` = min(`Incidence (HIV positive)`),
+      `HIV Mean 2015` = mean(`Incidence (HIV positive)`),
+      `HIV Median 2015` = median(`Incidence (HIV positive)`),
+      `HIV Max 2015` = max(`Incidence (HIV positive)`),
+      `HIV per 100 Min 2015` = min(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Mean 2015` = mean(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Median 2015` = median(`Incidence per 100,000 people (HIV positive`),
+      `HIV per 100 Max 2015` = max(`Incidence per 100,000 people (HIV positive`)
+    ) %>% gather()
+  
+  summary.Mortality.2005 <- tab5.data.2005 %>% drop_na() %>% 
+    summarize(
+      `Motality Min 2005` = min(`Death by TB`),
+      `Mortality Mean 2005` = mean(`Death by TB`),
+      `Mortality Median 2005` = median(`Death by TB`),
+      `Mortality Max 2005` = max(`Death by TB`),
+      `Mortality per 100 Min 2005` = min(`Death by TB per 100,000 people`),
+      `Mortality per 100 Mean 2005` = mean(`Death by TB per 100,000 people`),
+      `Mortality per 100 Median 2005` = median(`Death by TB per 100,000 people`),
+      `Mortality per 100 Max 2005` = max(`Death by TB per 100,000 people`)
+    ) %>% gather()
+  
+  summary.Mortality.2015 <- tab5.data.2015 %>% drop_na() %>% 
+    summarize(
+      `Motality Min 2015` = min(`Death by TB`),
+      `Mortality Mean 2015` = mean(`Death by TB`),
+      `Mortality Median 2015` = median(`Death by TB`),
+      `Mortality Max 2015` = max(`Death by TB`),
+      `Mortality per 100 Min 2015` = min(`Death by TB per 100,000 people`),
+      `Mortality per 100 Mean 2015` = mean(`Death by TB per 100,000 people`),
+      `Mortality per 100 Median 2015` = median(`Death by TB per 100,000 people`),
+      `Mortality per 100 Max 2015` = max(`Death by TB per 100,000 people`)
+    ) %>% gather()
+  
+  #tab5.better.data <- tab3.better.data[4:9]
+  output$table <- renderTable({
+    #if else for radio buttons here
+    
   })
   
   
@@ -440,7 +522,7 @@ server <- function(input, output, session) {
   
   output$tsplot <- renderPlot({
     plot(sum.columns$Year[1:ts$counter], sum.columns$`Total Drug Resistant`[1:ts$counter], xlim=c(2000,2016), ylim=c(0,130000), xlab="Year",
-         ylab="DRTB", type="l", main="Number of Drug resistant TB Cases over time")
+         ylab="DRTB", type="l", main="Number of Drug Resistant TB Cases Over Time")
   })
   
   observe({
