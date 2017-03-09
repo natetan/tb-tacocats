@@ -82,73 +82,55 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               titlePanel("Tuberculosis"),
                               p("Emily Nuri, Ali Salahuddin, Yulong Tan, Kianna Hales", align = "left"),
                               h4("Citation: The data for this application was taken from World Health Organization", a("Link", href="http://www.who.int/mediacentre/factsheets/fs104/en/", align ='center')),
-                              #strong(textOutput('hi')),
-                              #sidebarLayout(
-                              # WIDGET STUFF GOES HERE (inside sidebarPanel)
-                              # sidebarPanel(
-                              #selectInput(
-                              #'testing',
-                              #label = 'Testing',
-                              #choices = c('Yes', 'No')
-                              # )
-                              #),
                               # WIDGET STUFF END
                               
                               # VISUAL STUFF HERE (inside mainPanel)
                               fluidRow(
                                 column(5,
-                                  img(src='bacteria.png', align = "left", width=450, height=320),
-                                  img(src='whitebox.png', align = "left", width=450, height= 60),
-                                  img(src='symptoms.png', align = "left", width=450, height=270),
-                                  img(src='whitebox.png', align = "left", width=450, height= 60),
-                                  img(src='xray.jpg', align = "left", width=450, height=270),
-                                  img(src='whitebox.png', align = "left", width=450, height= 60),
-                                  h3("Who Cares?", align = "center"),
-                                  p("This application was built for individuals minorly interested in
-                                    public health, research groups, , medical professionals, potential funding sources, 
-                                    and the general public in order to spark awareness regarding this expanding issue.",
-                                    align = "center")
-                                  
+                                       img(src='bacteria.png', align = "left", width=450, height=320),
+                                       img(src='whitebox.png', align = "left", width=450, height= 60),
+                                       img(src='symptoms.png', align = "left", width=450, height=270),
+                                       img(src='whitebox.png', align = "left", width=450, height= 60),
+                                       img(src='xray.jpg', align = "left", width=450, height=270),
+                                       img(src='whitebox.png', align = "left", width=450, height= 60),
+                                       h3("Who Cares?", align = "center"),
+                                       p("This application was built for individuals minorly interested in
+                                         public health, research groups, , medical professionals, potential funding sources, 
+                                         and the general public in order to spark awareness regarding this expanding issue.",
+                                         align = "center")
+                                       
                                 ),
                                 column(5, offset = 1,
-                              h3("What Is It? How is it Changing?", align = "center"),
-                              p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
-                                It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
-                                em("Mycobacterium tuberculosis"),"causes it. MDR/RR Tuberculosis is Multi Drug Resistant Tuberculosis
-                                that is immune to the most common TB treatment drugs including isoniazid (INH) and rifampicin (RMP).
-                                Humans and Tuberculosis are effectively in an arms race to find cures and evolve, respectively. ", align = "center"),
-                              h3("Why Is It Important?", align = "center"),
-                              p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
-                              p("1. TB is one of the top 10 causes of death worldwide.", align = "center"),
-                              p("2. TB is a leading killer of people who are HIV positive.", align = "center"),
-                              p("3. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
-                              p("4. Drug resistant TB has evolved and is spreading. It was first recorded globally by the World Health Organization in 2005, and has since spread across continents.", align = "center"),
-                              h3("How Does It Spread?", align = "center"),
-                              p("TB spreads from person to person through the air.", align="center"), 
-                              p("When people with TB cough, sneeze or spit, they propel the TB bacteria into the air.", align="center"), 
-                              p("A person needs to inhale only a few of these germs to become infected.", align = "center"),
-                              h3("What Are The Symptoms?", align = "center"),
-                              p("1. A cough that lasts more than 3 weeks", align = "center"),
-                              p("2. Chest pain",align = "center"),
-                              p("3. Coughing up blood", align = "center"),
-                              p("4. Feeling tired all the time",align = "center"),
-                              p("5. Night sweats",align = "center"),
-                              p("6. Chills",align = "center"),
-                              p("7. Fever",align = "center"),
-                              p("8. Loss of appetite",align = "center"),
-                              p("9. Weight loss",align = "center"),
-                              h3("What's Happening Within The Body?",align = "center"),
-                              img(src='progression.png', align = "center")
-                              ))
-                              #selectInput(
-                              #'testing4',
-                              #label = 'Testing first panel',
-                              #choices = c('Yes', 'No')
-                              #),
-                              #tableOutput('table1')
-                              # VISUAL STUFF END
-                              #)
-                              ),
+                                       h3("What Is It? How is it Changing?", align = "center"),
+                                       p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
+                                         It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
+                                         em("Mycobacterium tuberculosis"),"causes it. MDR/RR Tuberculosis is Multi Drug Resistant Tuberculosis
+                                         that is immune to the most common TB treatment drugs including isoniazid (INH) and rifampicin (RMP).
+                                         Humans and Tuberculosis are effectively in an arms race to find cures and evolve, respectively. ", align = "center"),
+                                       h3("Why Is It Important?", align = "center"),
+                                       p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
+                                       p("1. TB is one of the top 10 causes of death worldwide.", align = "center"),
+                                       p("2. TB is a leading killer of people who are HIV positive.", align = "center"),
+                                       p("3. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
+                                       p("4. Drug resistant TB has evolved and is spreading. It was first recorded globally by the World Health Organization in 2005, and has since spread across continents.", align = "center"),
+                                       h3("How Does It Spread?", align = "center"),
+                                       p("TB spreads from person to person through the air.", align="center"), 
+                                       p("When people with TB cough, sneeze or spit, they propel the TB bacteria into the air.", align="center"), 
+                                       p("A person needs to inhale only a few of these germs to become infected.", align = "center"),
+                                       h3("What Are The Symptoms?", align = "center"),
+                                       p("1. A cough that lasts more than 3 weeks", align = "center"),
+                                       p("2. Chest pain",align = "center"),
+                                       p("3. Coughing up blood", align = "center"),
+                                       p("4. Feeling tired all the time",align = "center"),
+                                       p("5. Night sweats",align = "center"),
+                                       p("6. Chills",align = "center"),
+                                       p("7. Fever",align = "center"),
+                                       p("8. Loss of appetite",align = "center"),
+                                       p("9. Weight loss",align = "center"),
+                                       h3("What's Happening Within The Body?",align = "center"),
+                                       img(src='progression.png', align = "center")
+                                       ))
+                                ),
                             
                             # TAB 2 MAP STUFF
                             tabPanel(
@@ -181,7 +163,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             tabPanel(
                               'Scatter Plot',
                               p("The Scatter Plot below presents a plotted point for each country. The Y axis can change into 
-                                    recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while the X 
+                                recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while the X 
                                 axis records the number of incidents. This plot can be observed by a specific year so that it 
                                 is easy to see the TB trends in each country over the years or look at a specific year of interest. 
                                 There is a hovering feature which allows one to view the specific statistics of a particular country 
@@ -239,16 +221,16 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   plotOutput('tab4.plot'),
                                   p(),
                                   p("This Bar graph compares one, two or three country`s Incidence of TB and Death by TB rates. 
-                                  This is useful for comparing specific countries of interest. It is also useful for understanding, 
-                                  the difference between Tuberculosis infection and mortality include other factors possessed by each
-                                  country including economic status, access to healthcare, location, and hygienic resources. This very 
-                                  directly shows that there is variance among countries that may possess similar incidence rates, 
-                                  but have vastly different mortality rates. The user gets to pick which countries they would like 
-                                  to compare to explore this idea for themselves.", align = "center")
-                                )
+                                    This is useful for comparing specific countries of interest. It is also useful for understanding, 
+                                    the difference between Tuberculosis infection and mortality include other factors possessed by each
+                                    country including economic status, access to healthcare, location, and hygienic resources. This very 
+                                    directly shows that there is variance among countries that may possess similar incidence rates, 
+                                    but have vastly different mortality rates. The user gets to pick which countries they would like 
+                                    to compare to explore this idea for themselves.", align = "center")
+                                  )
                                 # VISUAL STUFF END
-                                )
-                            ),
+                                  )
+                                ),
                             
                             # TAB 5
                             tabPanel(
@@ -256,11 +238,11 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               tableOutput("table"),
                               #verbatimTextOutput("summary"),
                               p("These statistics report summary statistics on TB incidences, mortality, and TB incidence given someone is HIV positive.
-                              Here we explore the relationship between HIV and TB infection. HIV suppresses the immune system, and although it is not
-                              the primary cause for death, it is responsible for breaking the immune system down to the point where a person cannot 
-                              fight off the common cold. Therefore, it is very common in countries that host both diseases for individuals who have 
-                              HIV to also get TB. Here, we evaluate this occurrence on a global scale. It is detrimental to the fight against these 
-                              diseases to understand how they interact with one another."),
+                                Here we explore the relationship between HIV and TB infection. HIV suppresses the immune system, and although it is not
+                                the primary cause for death, it is responsible for breaking the immune system down to the point where a person cannot 
+                                fight off the common cold. Therefore, it is very common in countries that host both diseases for individuals who have 
+                                HIV to also get TB. Here, we evaluate this occurrence on a global scale. It is detrimental to the fight against these 
+                                diseases to understand how they interact with one another."),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -288,7 +270,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 )
                                 # VISUAL STUFF END
                               )
-                            ),
+                              ),
                             # TAB 6
                             tabPanel(
                               'Line Graph',
@@ -397,8 +379,7 @@ server <- function(input, output, session) {
       filter(Year == input$tab3.year)
     return(data)
   })
-  # Help insert selected year!!!!!!!!!!!!!!!!!!!!!!
-  # Help make widget work!!!!!!!!!!!!
+
   output$tab3.plot <- renderPlotly({
     y.axis <- input$tab3.y.axis
     
@@ -508,9 +489,7 @@ server <- function(input, output, session) {
     return(data)
   })
   
-  #tab5.better.data <- tab3.better.data[4:9]
   output$tab5.data <- renderTable({
-    #if else for radio buttons here
     return(tab5.data())
   })
   
