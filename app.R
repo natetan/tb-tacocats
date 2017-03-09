@@ -117,9 +117,9 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               p("3. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
                               p("4. Drug resistant TB has evolved and is spreading. It was first recorded globally by the World Health Organization in 2005, and has since spread across continents.", align = "center"),
                               h3("How Does It Spread?", align = "center"),
-                              p("TB spreads from person to person through the air. When people", align="center"), 
-                              p("with TB cough, sneeze or spit, they propel the", align="center"), 
-                              p("TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
+                              p("TB spreads from person to person through the air.", align="center"), 
+                              p("When people with TB cough, sneeze or spit, they propel the TB bacteria into the air.", align="center"), 
+                              p("A person needs to inhale only a few of these germs to become infected.", align = "center"),
                               h3("What Are The Symptoms?", align = "center"),
                               p("1. A cough that lasts more than 3 weeks", align = "center"),
                               p("2. Chest pain",align = "center"),
@@ -230,9 +230,14 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 mainPanel(
                                   plotOutput('tab4.plot'),
                                   p(),
-                                  p("This Bar graph compares one, two or three country`s Incidence of TB and
-                                    Death by TB rates. This is useful for comparing specific countries of interest.", align = "center")
-                                  )
+                                  p("This Bar graph compares one, two or three country`s Incidence of TB and Death by TB rates. 
+                                  This is useful for comparing specific countries of interest. It is also useful for understanding, 
+                                  the difference between Tuberculosis infection and mortality include other factors possessed by each
+                                  country including economic status, access to healthcare, location, and hygienic resources. This very 
+                                  directly shows that there is variance among countries that may possess similar incidence rates, 
+                                  but have vastly different mortality rates. The user gets to pick which countries they would like 
+                                  to compare to explore this idea for themselves.", align = "center")
+                                )
                                 # VISUAL STUFF END
                                 )
                             ),
@@ -242,6 +247,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               'Summary',
                               tableOutput("table"),
                               #verbatimTextOutput("summary"),
+                              p("These statistics report summary statistics on TB incidences, mortality, and TB incidence given someone is HIV positive.
+                              Here we explore the relationship between HIV and TB infection. HIV suppresses the immune system, and although it is not
+                              the primary cause for death, it is responsible for breaking the immune system down to the point where a person cannot 
+                              fight off the common cold. Therefore, it is very common in countries that host both diseases for individuals who have 
+                              HIV to also get TB. Here, we evaluate this occurrence on a global scale. It is detrimental to the fight against these 
+                              diseases to understand how they interact with one another."),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
@@ -264,6 +275,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
+                                  h4("Summary Statistics:"),
                                   tableOutput('tab5.data')
                                 )
                                 # VISUAL STUFF END
@@ -284,7 +296,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 mainPanel(
                                   plotOutput('tsplot'),
                                   p(),
-                                  p("The Line plot shows the number of recorded Drug Resistant TB case from 2000 to 2015.
+                                  p("The Line plot shows the number of recorded Drug Resistant TB cases from 2000 to 2015.
                                     By using the Go Button, the animation will play in order to demonstrate the rate of 
                                     growth of Drug Resistant TB. This demonstrates the strain's ability to propagate and 
                                     the serious danger it presents to global health.", align = "center")
