@@ -418,6 +418,7 @@ server <- function(input, output, session) {
   })
   
   #TAB 4
+  #set reactive data for bar graph 
   bargraph.data <- reactive({
     data <- tab3.better.data %>% 
       select(Country,Year,Incidence, `Death by TB`) %>% 
@@ -429,27 +430,26 @@ server <- function(input, output, session) {
     return(data)
   })
   
-  
+  #renders bar graph 
   output$tab4.plot <- renderPlot({
     plot <- ggplot(data = bargraph.data() ) +
-      
       aes(x = Country ,y = value) +  
       geom_bar(aes(fill = key), position = "dodge", stat="identity") +
       ggtitle("TB Incidence & Mortality by Selected Countries")
-    
-    
     return(plot)
   })
   
   #TAB 5 SUMMARY
-  
+  #set reactive data for summary statistics 
   tab5.data <- reactive({
     data <- tab3.better.data %>% 
       filter(Year == input$tab4.year)
     data <- data[4:9]
+    #if user chooses Incidence data 
     if (input$tab4.radio == 'Incidence') {
       data <- data %>% 
         drop_na() %>% 
+        #get stats 
         summarize(
           Min = min(Incidence),
           Max = max(Incidence),
@@ -460,9 +460,11 @@ server <- function(input, output, session) {
           `Mean per 100,000` = mean(`Incidence per 100,000 people`),
           `Median per 100,000` = median(`Incidence per 100,000 people`)
         )
+      #if user chooses Incidence(HIV) data 
     } else if (input$tab4.radio == 'Incidence (HIV)') {
       data <- data %>% 
         drop_na() %>% 
+        #get stats
         summarize(
           Min = min(`Incidence (HIV positive)`),
           Max = max(`Incidence (HIV positive)`),
@@ -473,9 +475,11 @@ server <- function(input, output, session) {
           `Mean per 100,000` = mean(`Incidence per 100,000 people (HIV positive`),
           `Median per 100,000` = median(`Incidence per 100,000 people (HIV positive`)
         )
+      #if user chooses Mortality data 
     } else {
       data <- data %>% 
         drop_na() %>% 
+        #get stats
         summarize(
           Min = min(`Death by TB`),
           Max = max(`Death by TB`),
@@ -487,29 +491,31 @@ server <- function(input, output, session) {
           `Median per 100,000` = median(`Death by TB per 100,000 people`)
         )
     }
+    #set up data (gather data and change column names)
     data <- gather(data)
     names(data)[1] <- paste("Statistic")
     names(data)[2] <- paste("Value")
     return(data)
   })
   
+  #renders table for summary statistics 
   output$tab5.data <- renderTable({
     return(tab5.data())
   })
   
   
   
-  #TAB 6 Go Button 
-  
-  
-  # initialize reactive values
+  #TAB 6 
+  #initialize reactive values
   ts <- reactiveValues( counter=1)
   
+  #renders line graph and sets up variables 
   output$tsplot <- renderPlot({
     plot(sum.columns$Year[1:ts$counter], sum.columns$`Total Drug Resistant`[1:ts$counter], xlim=c(2000,2016), ylim=c(0,130000), xlab="Year",
          ylab="DRTB", type="l", main="Number of Drug Resistant TB Cases Over Time")
   })
   
+  #sets up Go Button for line graph animation by sequencially plotting points
   observe({
     isolate({
       if (ts$counter > 1){
@@ -522,6 +528,7 @@ server <- function(input, output, session) {
     }
   })
   
+  #sets up Reset Button by resetting the counter 
   observe({
     if (input$reset > 0){
       ts$counter <<- 1
