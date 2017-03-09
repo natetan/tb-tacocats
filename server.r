@@ -10,6 +10,7 @@ library(ggplot2)
 library(tidyr)
 library(shinythemes)
 library(plotly)
+library(maps)
 
 incidence <- read.csv("data/tb-country-incidence.csv", stringsAsFactors = F)
 incidence.region <- read.csv("data/tb-region-incidence.csv", stringsAsFactors = F)
