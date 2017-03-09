@@ -235,27 +235,26 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               sidebarLayout(
                                 # WIDGET STUFF GOES HERE (inside sidebarPanel)
                                 sidebarPanel(
-                                  selectInput(
-                                    'testing2',
-                                    label = 'Testing 2',
-                                    choices = c('Yes', 'No')
+                                  radioButtons(
+                                    'tab4.radio',
+                                    label = 'Data to display',
+                                    choices = c(
+                                      'Incidence',
+                                      'Incidence (HIV)',
+                                      'Mortality'
+                                    )
                                   ),
                                   selectInput(
-                                    'testing5',
-                                    label = 'Second Slider!',
-                                    choices = c('Yes', 'No')
+                                    'tab4.year',
+                                    label = 'Year',
+                                    choices = c(2000:2015)
                                   )
                                 ),
                                 # WIDGET STUFF END
                                 
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
-                                  selectInput(
-                                    'testing3',
-                                    label = 'Testing second panel',
-                                    choices = c('Yes', 'No')
-                                  ),
-                                  tableOutput('table2')
+                                  tableOutput('tab5.data')
                                 )
                                 # VISUAL STUFF END
                               )
@@ -427,92 +426,59 @@ server <- function(input, output, session) {
   })
   
   #TAB 5 SUMMARY
-  #Can you add 6 radio buttons for this? For each data frame ex. 2005 Incidence, 2005 Incidence per 100, 2005 HIv, etc. 
-  tab5.data.2005 <- filter(tab3.better.data, Year == '2005')
-  tab5.data.2005 <- tab5.data.2005[4:9]
   
-  tab5.data.2015 <- filter(tab3.better.data, Year == '2015')
-  tab5.data.2015 <- tab5.data.2015[4:9]
-  
-  summary.incidence.2005 <- tab5.data.2005 %>% drop_na() %>% 
-    summarize(
-      `Incidence min 2005` = min(Incidence),
-      `Incidence mean 2005` = mean(Incidence),
-      `Incidence median 2005` = median(Incidence),
-      `Incidence max 2005` = max(Incidence),
-      `Incidence per 100.min.2005` = min(`Incidence per 100,000 people`),
-      `Incidence per 100.mean.2005` = mean(`Incidence per 100,000 people`),
-      `Incidence per 100.median.2005` = median(`Incidence per 100,000 people`),
-      `Incidence per 100.max.2005` = max(`Incidence per 100,000 people`)
-    ) %>% gather()
-  
-  
-  summary.incidence.2015 <- tab5.data.2015 %>% drop_na() %>% 
-    summarize(
-      `Incidence Min 2015` = min(Incidence),
-      `Incidence Mean 2015` = mean(Incidence),
-      `Incidence Median 2015` = median(Incidence),
-      `Incidence Max 2015` = max(Incidence),
-      `Incidence per 100 Min 2015` = min(`Incidence per 100,000 people`),
-      `Incidence per 100 Mean 2015` = mean(`Incidence per 100,000 people`),
-      `Incidence per 100 Median 2015` = median(`Incidence per 100,000 people`),
-      `Incidence per 100 Max 2015` = max(`Incidence per 100,000 people`)
-    ) %>% gather()
-  
-  
-  summary.HIV.2005 <- tab5.data.2005 %>% drop_na() %>% 
-    summarize(
-      `HIV Min 2005` = min(`Incidence (HIV positive)`),
-      `HIV Mean 2005` = mean(`Incidence (HIV positive)`),
-      `HIV Median 2005` = median(`Incidence (HIV positive)`),
-      `HIV Max 2005` = max(`Incidence (HIV positive)`),
-      `HIV per 100 Min 2005` = min(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Mean 2005` = mean(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Median 2005` = median(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Max 2005` = max(`Incidence per 100,000 people (HIV positive`)
-    ) %>% gather()
-  
-  
-  summary.HIV.2015 <- tab5.data.2015 %>% drop_na() %>% 
-    summarize(
-      `HIV Min 2015` = min(`Incidence (HIV positive)`),
-      `HIV Mean 2015` = mean(`Incidence (HIV positive)`),
-      `HIV Median 2015` = median(`Incidence (HIV positive)`),
-      `HIV Max 2015` = max(`Incidence (HIV positive)`),
-      `HIV per 100 Min 2015` = min(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Mean 2015` = mean(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Median 2015` = median(`Incidence per 100,000 people (HIV positive`),
-      `HIV per 100 Max 2015` = max(`Incidence per 100,000 people (HIV positive`)
-    ) %>% gather()
-  
-  summary.Mortality.2005 <- tab5.data.2005 %>% drop_na() %>% 
-    summarize(
-      `Motality Min 2005` = min(`Death by TB`),
-      `Mortality Mean 2005` = mean(`Death by TB`),
-      `Mortality Median 2005` = median(`Death by TB`),
-      `Mortality Max 2005` = max(`Death by TB`),
-      `Mortality per 100 Min 2005` = min(`Death by TB per 100,000 people`),
-      `Mortality per 100 Mean 2005` = mean(`Death by TB per 100,000 people`),
-      `Mortality per 100 Median 2005` = median(`Death by TB per 100,000 people`),
-      `Mortality per 100 Max 2005` = max(`Death by TB per 100,000 people`)
-    ) %>% gather()
-  
-  summary.Mortality.2015 <- tab5.data.2015 %>% drop_na() %>% 
-    summarize(
-      `Motality Min 2015` = min(`Death by TB`),
-      `Mortality Mean 2015` = mean(`Death by TB`),
-      `Mortality Median 2015` = median(`Death by TB`),
-      `Mortality Max 2015` = max(`Death by TB`),
-      `Mortality per 100 Min 2015` = min(`Death by TB per 100,000 people`),
-      `Mortality per 100 Mean 2015` = mean(`Death by TB per 100,000 people`),
-      `Mortality per 100 Median 2015` = median(`Death by TB per 100,000 people`),
-      `Mortality per 100 Max 2015` = max(`Death by TB per 100,000 people`)
-    ) %>% gather()
+  tab5.data <- reactive({
+    data <- tab3.better.data %>% 
+      filter(Year == input$tab4.year)
+    data <- data[4:9]
+    if (input$tab4.radio == 'Incidence') {
+      data <- data %>% 
+        drop_na() %>% 
+        summarize(
+          Min = min(Incidence),
+          Max = max(Incidence),
+          Mean = mean(Incidence),
+          Median = median(Incidence),
+          `Min per 100,000` = min(`Incidence per 100,000 people`),
+          `Max per 100,000` = max(`Incidence per 100,000 people`),
+          `Mean per 100,000` = mean(`Incidence per 100,000 people`),
+          `Median per 100,000` = median(`Incidence per 100,000 people`)
+        )
+    } else if (input$tab4.radio == 'Incidence (HIV)') {
+      data <- data %>% 
+        drop_na() %>% 
+        summarize(
+          Min = min(`Incidence (HIV positive)`),
+          Max = max(`Incidence (HIV positive)`),
+          Mean = mean(`Incidence (HIV positive)`),
+          Median = median(`Incidence (HIV positive)`),
+          `Min per 100,000` = min(`Incidence per 100,000 people (HIV positive`),
+          `Max per 100,000` = max(`Incidence per 100,000 people (HIV positive`),
+          `Mean per 100,000` = mean(`Incidence per 100,000 people (HIV positive`),
+          `Median per 100,000` = median(`Incidence per 100,000 people (HIV positive`)
+        )
+    } else {
+      data <- data %>% 
+        drop_na() %>% 
+        summarize(
+          Min = min(`Death by TB`),
+          Max = max(`Death by TB`),
+          Mean = mean(`Death by TB`),
+          Median = median(`Death by TB`),
+          `Min per 100,000` = min(`Death by TB per 100,000 people`),
+          `Max per 100,000` = max(`Death by TB per 100,000 people`),
+          `Mean per 100,000` = mean(`Death by TB per 100,000 people`),
+          `Median per 100,000` = median(`Death by TB per 100,000 people`)
+        )
+    }
+    data <- gather(data)
+    return(data)
+  })
   
   #tab5.better.data <- tab3.better.data[4:9]
-  output$table <- renderTable({
+  output$tab5.data <- renderTable({
     #if else for radio buttons here
-    
+    return(tab5.data())
   })
   
   
