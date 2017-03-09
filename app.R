@@ -380,11 +380,11 @@ server <- function(input, output, session) {
         ylim(0, max(tab3.data()$Mortality) + mean(tab3.data()$Mortality))
     }
     if (y.axis == 'Treated For Drug Resistance') {
-      plot <- plot + geom_point(mapping = aes(x = Incidence, y = `Treated For Drug Resistance`, color = `Confirmed cases of RR-/MDR-TB`)) +
+      plot <- plot + geom_point(mapping = aes(x = Incidence, y = `Treated For Drug Resistance`, color = `Confirmed cases of RR-/MDR-TB`, fill = `Country`)) +
         ylim(0, max(tab3.data()$`Treated For Drug Resistance`) + mean(tab3.data()$`Treated For Drug Resistance`))
     }
     if (y.axis == 'HIV') {
-      plot <- plot + geom_point(mapping = aes(x = Incidence, y = HIV, color = `Confirmed cases of RR-/MDR-TB`)) +
+      plot <- plot + geom_point(mapping = aes(x = Incidence, y = HIV, color = `Confirmed cases of RR-/MDR-TB`, fill = `Country`)) +
         ylim(0, max(tab3.data()$HIV) + mean(tab3.data()$HIV))
     }
     plot <- plot +
