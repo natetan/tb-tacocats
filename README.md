@@ -1,6 +1,6 @@
 # INFO 201 Final Project
 ## Tuberculosis Data
-### Our app is hosted on [ShinyApps](https://yulongtan.shinyapps.io/tb-tacocats/)
+### Our app is hosted on ShinyApps and can be found [here](https://yulongtan.shinyapps.io/tb-tacocats/)
 #### 3.9.17
 
 ### Team Tacocats
