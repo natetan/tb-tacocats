@@ -102,6 +102,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   img(src='symptoms.png', align = "left", width=450, height=270),
                                   img(src='whitebox.png', align = "left", width=450, height= 60),
                                   img(src='xray.jpg', align = "left", width=450, height=270)
+                                  
                                 ),
                                 column(5,
                               h3("What Is It? How is it Changing?", align = "center"),
