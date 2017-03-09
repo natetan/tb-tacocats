@@ -104,7 +104,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                   img(src='xray.jpg', align = "left", width=450, height=270)
                                   
                                 ),
-                                column(5,
+                                column(5, offset = 1,
                               h3("What Is It? How is it Changing?", align = "center"),
                               p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
                                 It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
