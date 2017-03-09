@@ -128,7 +128,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               tableOutput('table1')
                               # VISUAL STUFF END
                               #)
-                              ),
+                            ),
                             
                             # TAB 2 MAP STUFF
                             tabPanel(
@@ -253,7 +253,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                             )
                 )
                 
-                )
+)
 
 
 
@@ -364,7 +364,7 @@ server <- function(input, output, session) {
       labs(colour ='Number of confirmed cases of RR-/MDR-TB') +
       # scales library removes scientific notation and adds commas to values
       scale_x_continuous(labels = comma) +
-      scale_y_continuous(labels = comma)
+      scale_y_continuous(labels = comma)+
       theme(legend.position="none")
     
     plot <- ggplotly(plot)
