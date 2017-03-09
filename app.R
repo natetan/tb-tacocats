@@ -95,17 +95,17 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               # WIDGET STUFF END
                               
                               # VISUAL STUFF HERE (inside mainPanel)
-                              img(src='bacteria.png', align = "left", width=480, height=350),
+                              img(src='bacteria.png', align = "left", width=480, height=365),
                               h3("What Is It?", align = "center"),
                               p("Tuberculosis or TB, as it’s commonly called is a contagious infection that usually attacks the lungs. 
                                 It can also spread to other parts of the body, like the brain as well as the spine. A bacteria called", 
                                 em("Mycobacterium tuberculosis"),"causes it.", align = "center"),
                               h3("Why Is It Important?", align = "center"),
                               p("Tuberculosis (TB) is one of the world’s deadliest diseases:", align = "center"),
-                              p("1. One third of the world’s population is infected with TB.", align = "center"),
-                              p("2. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
-                              p("3. TB is a leading killer of people who are HIV positive.", align = "center"),
-                              p("4. Drug resistant TB has evolved and is spreading.", align = "center"),
+                              p("1. TB is one of the top 10 causes of death worldwide.", align = "center"),
+                              p("2. TB is a leading killer of people who are HIV positive.", align = "center"),
+                              p("3. In 2015, 10.4 million people around the world became sick with TB disease. There were 1.8 million TB-related deaths worldwide.", align = "center"),
+                              p("4. Drug resistant TB has evolved and is spreading. It was first recorded globally by the World Health Organization in 2005, and has since spread across continents.", align = "center"),
                               h3("How Does It Spread?", align = "center"),
                               p("TB spreads from person to person through the air. When people with TB cough, sneeze or spit, they propel the 
                                 TB bacteria into the air. A person needs to inhale only a few of these germs to become infected.", align = "center"),
@@ -121,7 +121,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               p("8. Loss of appetite",align = "center"),
                               p("9. Weight loss",align = "center"),
                               h3("What's Happening Within The Body?",align = "center"),
-                              img(src='progression.png', align = "right")
+                              img(src='progression.png', align = "center")
                               #selectInput(
                               #'testing4',
                               #label = 'Testing first panel',
@@ -159,7 +159,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                               )
                             ),
                             
-                            # TAB 3 (GDP stuff)
+                            # TAB 3 (Scatter Plot)
                             tabPanel(
                               'Scatter Plot',
                               sidebarLayout(
@@ -182,7 +182,7 @@ ui <- fluidPage(theme = shinytheme("flatly"),
                                 # VISUAL STUFF HERE (inside mainPanel)
                                 mainPanel(
                                   plotlyOutput('tab3.plot'),
-                                  img(src='scatterlegend.png', align = "right", width=585, height=85),
+                                  img(src='scatterlegend.png', align = "center", width=585, height=85),
                                   p(),
                                   p("The Scatter Plot above presents a plotted point for each country. The Y axis can change
                                     into recording Mortality from TB, Treated for Drug Resistance TB cases and HIV cases while
@@ -405,10 +405,10 @@ server <- function(input, output, session) {
   
   #TAB 4
   bargraph.data <- reactive({
-    data <- main.data %>% 
-      select(Country,Year,Incidence,Death.by.TB) %>% 
+    data <- tab3.better.data %>% 
+      select(Country,Year,Incidence, `Death by TB`) %>% 
       filter(Year == input$bar.year) %>% 
-      select(Country, Incidence, Death.by.TB) %>% 
+      select(Country, Incidence, `Death by TB`) %>% 
       gather(key, value, -Country) %>% 
       filter(Country == input$country1 | Country == input$country2 | Country == input$country3 ) %>% 
       arrange(Country)
@@ -420,7 +420,8 @@ server <- function(input, output, session) {
     plot <- ggplot(data = bargraph.data() ) +
       
       aes(x = Country ,y = value) +  
-      geom_bar(aes(fill = key), position = "dodge", stat="identity")
+      geom_bar(aes(fill = key), position = "dodge", stat="identity") +
+      ggtitle("TB Incidence & Mortality by Selected Countries")
     
     
     return(plot)
